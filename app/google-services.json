@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "966162833012",
+    "project_id": "ak-marketplace-be3c0",
+    "storage_bucket": "ak-marketplace-be3c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:966162833012:android:4b0862fff7c050fb567b21",
+        "android_client_info": {
+          "package_name": "com.example.akmarketplace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "966162833012-3rir0tsha5eoho18hnielh63ir7oebld.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjlbef7jKsajFCVDirUzkFBS-tBg-N28s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "966162833012-3rir0tsha5eoho18hnielh63ir7oebld.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
