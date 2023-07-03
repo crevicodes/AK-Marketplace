@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnTest;
+    private Button btnTest;
 
     private Button btn_createacc, btn_login;
     private EditText et_email, et_password;
