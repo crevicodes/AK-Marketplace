@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-public class CreateAccount extends AppCompatActivity implements View.OnClickListener {
+public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText et_firstname, et_lastname, et_email2, et_password2;
     private Button btn_createacc2;
