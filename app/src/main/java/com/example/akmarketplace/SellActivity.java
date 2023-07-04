@@ -15,6 +15,11 @@ public class SellActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
+
+        btn_Browse2 = findViewById(R.id.btn_Browse2);
+        btn_Sell2 = findViewById(R.id.btn_Sell2);
+        btn_Profile2 = findViewById(R.id.btn_Profile2);
+
     }
 
 

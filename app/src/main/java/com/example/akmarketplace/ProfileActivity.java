@@ -17,5 +17,10 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        btn_Browse3 = findViewById(R.id.btn_Browse3);
+        btn_Sell3 = findViewById(R.id.btn_Sell3);
+        btn_Profile3 = findViewById(R.id.btn_Profile3);
+
     }
 }

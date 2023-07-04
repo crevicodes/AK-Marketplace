@@ -33,6 +33,10 @@ public class BrowseActivity extends AppCompatActivity {
             tv_welcometitle.setText("Welcome, " + name);
         }
 
+        btn_Browse1 = findViewById(R.id.btn_Browse1);
+        btn_Sell1 = findViewById(R.id.btn_Sell1);
+        btn_Profile1 = findViewById(R.id.btn_Profile1);
+
         // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //toolbar.showOverflowMenu();
 
