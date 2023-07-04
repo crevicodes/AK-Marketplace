@@ -2,35 +2,28 @@ package com.example.akmarketplace;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.AttributeSet;
-import android.view.InflateException;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.TextView;
-import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class MainActivity extends AppCompatActivity {
+public class BrowseActivity extends AppCompatActivity {
 
     private TextView tv_welcometitle;
     static FirebaseFirestore db;
+
+    private Button btn_Browse1;
+    private Button btn_Sell1;
+    private Button btn_Profile1;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_browse);
         tv_welcometitle= findViewById(R.id.tv_welcometitle);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -40,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             tv_welcometitle.setText("Welcome, " + name);
         }
 
-       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //toolbar.showOverflowMenu();
 
     }

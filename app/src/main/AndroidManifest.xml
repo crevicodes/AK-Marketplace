@@ -13,7 +13,7 @@
         android:theme="@style/Theme.AKMarketplace"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".BrowseActivity"
             android:exported="false"
             android:theme="@style/Theme.AKMarketplace"/>
 

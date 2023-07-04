@@ -21,7 +21,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnTest;
 
 
     private Button btn_createacc, btn_login;
@@ -33,7 +32,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loginactivity);
+        setContentView(R.layout.activity_login);
 
         btn_createacc = findViewById(R.id.btn_createacc);
         btn_login = findViewById(R.id.btn_login);
@@ -66,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent i = new Intent(getApplicationContext(), BrowseActivity.class);
                                 i.putExtra("username", user.getEmail());
                                 startActivity(i);
                             } else {
