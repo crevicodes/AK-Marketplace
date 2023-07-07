@@ -18,11 +18,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText et_firstname, et_lastname, et_email2, et_password2;
+    private EditText et_firstname, et_lastname, et_email2, et_password2, et_phone2;
     private Button btn_createacc2;
 
     private FirebaseAuth mAuth;
@@ -34,6 +35,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
         et_firstname = findViewById(R.id.et_firstname);
         et_lastname = findViewById(R.id.et_lastname);
+        et_phone2 = findViewById(R.id.et_phone2);
         et_email2 = findViewById(R.id.et_email2);
         et_password2 = findViewById(R.id.et_password2);
         btn_createacc2 = findViewById(R.id.btn_createacc2);
@@ -47,7 +49,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         if(v.getId() == R.id.btn_createacc2)
         {
-            if(et_firstname.getText().toString().isEmpty() || et_lastname.getText().toString().isEmpty() ||et_email2.getText().toString().isEmpty() ||et_password2.getText().toString().isEmpty())
+            if(et_firstname.getText().toString().isEmpty() || et_lastname.getText().toString().isEmpty() || et_phone2.getText().toString().isEmpty()||et_email2.getText().toString().isEmpty() ||et_password2.getText().toString().isEmpty())
             {
                 Toast.makeText(this, "Please Fill in all Fields", Toast.LENGTH_SHORT).show();
             }
@@ -62,6 +64,8 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                                     Toast.makeText(getApplicationContext(), "Create User With Email : " +
                                             "success\nPlease login",Toast.LENGTH_SHORT).show();
                                             FirebaseUser user = mAuth.getCurrentUser();
+                                            user.updateEmail(et_email2.getText().toString());
+                                            //user.updatePhoneNumber( );
                                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                             .setDisplayName(et_firstname.getText().toString() + " " + et_lastname.getText().toString())
                                             .build();
