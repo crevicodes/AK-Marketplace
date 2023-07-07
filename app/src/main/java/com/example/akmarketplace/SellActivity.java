@@ -52,12 +52,13 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_Location) {
+            Intent mapsIntent = new Intent(getApplicationContext(), MapsActivity.class);
+            startActivity(mapsIntent);
 
         }
         else if (v.getId() == R.id.btn_Image) {
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(cameraIntent, 101);
-
         }
         else if (v.getId() == R.id.btn_Browse2) {
             Intent browseIntent = new Intent(getApplicationContext(), BrowseActivity.class);
