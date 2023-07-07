@@ -2,45 +2,73 @@ package com.example.akmarketplace;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class BrowseActivity extends AppCompatActivity {
+public class BrowseActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView tv_welcometitle;
+    //private TextView tv_welcometitle;
     static FirebaseFirestore db;
 
-    private Button btn_Browse1;
-    private Button btn_Sell1;
-    private Button btn_Profile1;
+    private Button btn_Browse1, btn_Sell1, btn_Profile1;
+    private EditText et_Search;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse);
-        tv_welcometitle= findViewById(R.id.tv_welcometitle);
+        //tv_welcometitle= findViewById(R.id.tv_welcometitle);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // Name, email address etc
             String name = user.getDisplayName();
-            tv_welcometitle.setText("Welcome, " + name);
+            //tv_welcometitle.setText("Welcome, " + name);
         }
 
         btn_Browse1 = findViewById(R.id.btn_Browse1);
         btn_Sell1 = findViewById(R.id.btn_Sell1);
         btn_Profile1 = findViewById(R.id.btn_Profile1);
+        et_Search = findViewById(R.id.et_Search);
+
+        btn_Sell1.setOnClickListener(this);
+        btn_Profile1.setOnClickListener(this);
+        btn_Browse1.setOnClickListener(this);
+
 
         // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //toolbar.showOverflowMenu();
 
     }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_Sell1) {
+            Intent sellIntent = new Intent(getApplicationContext(), SellActivity.class);
+            startActivity(sellIntent);
+            finish();
+        }
+        else if (v.getId() == R.id.btn_Profile1) {
+            Intent profileIntent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(profileIntent);
+            finish();
+        }
+        else if (v.getId() == R.id.btn_Browse1) {
+            et_Search.setText("");
+        }
+    }
+
+
 
 
 

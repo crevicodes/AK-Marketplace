@@ -38,7 +38,8 @@
         android:hint="Email"
         android:inputType="textPersonName"
         android:padding="10dp"
-        tools:ignore="TouchTargetSizeCheck"/>
+        android:textColor="#050505"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <EditText
         android:id="@+id/et_password"
@@ -52,6 +53,7 @@
         android:hint="Password"
         android:inputType="textPassword"
         android:padding="10dp"
+        android:textColor="#050505"
         tools:ignore="TouchTargetSizeCheck" />
 
     <LinearLayout

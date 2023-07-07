@@ -26,7 +26,7 @@
             android:id="@+id/tv_welcometitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="AK Marketplace"
+            android:text="AK Marketplace - Browse"
             android:textColor="@color/black"
             android:textSize="20dp" />
 
@@ -49,7 +49,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/editTextText"
+                    android:id="@+id/et_Search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
@@ -60,6 +60,7 @@
                     android:hint="Search Marketplace"
                     android:inputType="text"
                     android:padding="10dp"
+                    android:textColor="#000000"
                     tools:ignore="TouchTargetSizeCheck" />
             </LinearLayout>
 

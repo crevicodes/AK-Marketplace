@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView tv_welcometitle;
+    //private TextView tv_welcometitle;
 
     private String fullname, phone, email;
     private Button btn_Browse3;
@@ -32,12 +32,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             fullname = user.getDisplayName();
             email = user.getEmail();
 
-            tv_welcometitle.setText("Welcome, " + fullname);
+            //tv_welcometitle.setText("Welcome, " + fullname);
         }
 
         btn_Browse3 = findViewById(R.id.btn_Browse3);
         btn_Sell3 = findViewById(R.id.btn_Sell3);
         btn_Profile3 = findViewById(R.id.btn_Profile3);
+
+        btn_Browse3.setOnClickListener(this);
+        btn_Sell3.setOnClickListener(this);
 
     }
 
@@ -46,16 +49,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if(v.getId() == R.id.btn_Browse3)
         {
-
+            Intent browseIntent = new Intent(getApplicationContext(), BrowseActivity.class);
+            startActivity(browseIntent);
+            finish();
         }
         else if(v.getId() == R.id.btn_Sell3)
         {
-
-        }
-        else if(v.getId() == R.id.btn_Profile3)
-        {
-            Intent profile = new Intent(this, ProfileActivity.class);
-            startActivity(profile);
+            Intent sellIntent = new Intent(getApplicationContext(), SellActivity.class);
+            startActivity(sellIntent);
+            finish();
         }
     }
 }

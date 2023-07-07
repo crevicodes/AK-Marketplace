@@ -45,7 +45,8 @@
             android:ems="10"
             android:hint="First name"
             android:inputType="textPersonName"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:textColor="#000000" />
 
         <EditText
             android:id="@+id/et_lastname"
@@ -59,7 +60,8 @@
             android:ems="10"
             android:hint="Last name"
             android:inputType="textPersonName"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:textColor="#000000" />
     </LinearLayout>
 
     <EditText
@@ -74,7 +76,8 @@
         android:ems="10"
         android:hint="Phone"
         android:inputType="textPersonName"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:textColor="#000000" />
 
     <EditText
         android:id="@+id/et_email2"
@@ -88,7 +91,8 @@
         android:ems="10"
         android:hint="Email"
         android:inputType="textPersonName"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:textColor="#000000" />
 
     <EditText
         android:id="@+id/et_password2"
@@ -102,7 +106,8 @@
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:textColor="#000000" />
 
     <Button
         android:id="@+id/btn_createacc2"
