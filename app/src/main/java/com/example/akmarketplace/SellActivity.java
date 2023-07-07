@@ -5,14 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.security.Permission;
 
@@ -42,7 +46,10 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_DENIED);
-        ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.CAMERA}, 102);
+        ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.CAMERA}, 202);
+
+
+
 
         newItem = new Item();
 
@@ -53,7 +60,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (v.getId() == R.id.btn_Location) {
             Intent mapsIntent = new Intent(getApplicationContext(), MapsActivity.class);
-            startActivity(mapsIntent);
+            startActivityForResult(mapsIntent,201);
 
         }
         else if (v.getId() == R.id.btn_Image) {
