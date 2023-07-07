@@ -1,18 +1,24 @@
 package com.example.akmarketplace;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.zip.Inflater;
 
 public class BrowseActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -21,6 +27,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
 
     private Button btn_Browse1, btn_Sell1, btn_Profile1;
     private EditText et_Search;
+    Toolbar toolbar1;
 
 
     @Override
@@ -46,8 +53,8 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         btn_Browse1.setOnClickListener(this);
 
 
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //toolbar.showOverflowMenu();
+        toolbar1 = findViewById(R.id.toolbar1);
+        setSupportActionBar(toolbar1);
 
     }
 
@@ -67,6 +74,20 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
             et_Search.setText("");
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(
+                R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        return super.onOptionsItemSelected(item);
+    }
+
 
 
 

@@ -2,6 +2,7 @@ package com.example.akmarketplace;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -13,6 +14,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,6 +28,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
     private Button btn_Browse2, btn_Sell2, btn_Profile2, btn_Location, btn_Image;
     ImageView img_itemDisplay;
     Item newItem;
+    Toolbar toolbar2;
 
 
     @Override
@@ -43,6 +47,9 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
         btn_Profile2.setOnClickListener(this);
         btn_Image.setOnClickListener(this);
         btn_Location.setOnClickListener(this);
+
+        toolbar2 = findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar2);
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_DENIED);
@@ -87,4 +94,20 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
             img_itemDisplay.setImageBitmap(picture);
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(
+                R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
 }

@@ -1,9 +1,12 @@
 package com.example.akmarketplace;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,6 +22,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private Button btn_Browse3;
     private Button btn_Sell3;
     private Button btn_Profile3;
+    Toolbar toolbar3;
 
 
     @Override
@@ -42,6 +46,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         btn_Browse3.setOnClickListener(this);
         btn_Sell3.setOnClickListener(this);
 
+        toolbar3 = findViewById(R.id.toolbar3);
+        setSupportActionBar(toolbar3);
+
+
     }
 
 
@@ -60,4 +68,21 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             finish();
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(
+                R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
 }
