@@ -26,7 +26,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btn_createacc, btn_login;
     private EditText et_email, et_password;
 
+    public static String fullname, phone, email;
     private FirebaseAuth mAuth;
+
+    public LoginActivity()
+    {
+    }
 
 
     @Override
@@ -39,13 +44,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         et_email = findViewById(R.id.et_email);
         et_password = findViewById(R.id.et_password);
 
+
+
         btn_login.setOnClickListener(this);
         btn_createacc.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
     }
-
-
 
     @Override
     public void onClick(View v) {
@@ -79,4 +84,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         }
     }
+
+
 }

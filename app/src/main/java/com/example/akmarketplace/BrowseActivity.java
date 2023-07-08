@@ -23,7 +23,6 @@ import java.util.zip.Inflater;
 public class BrowseActivity extends AppCompatActivity implements View.OnClickListener {
 
     //private TextView tv_welcometitle;
-    static FirebaseFirestore db;
 
     private Button btn_Browse1, btn_Sell1, btn_Profile1;
     private EditText et_Search;

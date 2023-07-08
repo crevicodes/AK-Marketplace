@@ -48,26 +48,98 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/editTextText"
+                <TextView
+                    android:id="@+id/tv_FullnameLabel"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="35dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="Full Name:"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tv_Fullname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginVertical="10dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_weight="1"
-                    android:background="@drawable/et_input_focused"
-                    android:ems="10"
-                    android:hint="Search Marketplace"
-                    android:inputType="text"
-                    android:padding="10dp"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    android:text="First Last"
+                    android:textSize="18dp" />
+
             </LinearLayout>
 
-            <ListView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            </ListView>
+                <TextView
+                    android:id="@+id/tv_EmailLabel"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="35dp"
+                    android:layout_marginVertical="20dp"
+                    android:text="Email:"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tv_Email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_weight="1"
+                    android:text="user@aus.edu"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_PhoneLabel"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="35dp"
+                    android:layout_marginVertical="20dp"
+                    android:text="Phone:"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tv_Phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_weight="1"
+                    android:text="+971501234567"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_changePhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="20dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#FEA700"
+                    android:text="Change Phone Number"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
