@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText et_firstname, et_lastname, et_email2, et_password2, et_phone2;
+    private EditText et_firstname, et_lastname, et_email2, et_password2, et_password3, et_phone2;
     private Button btn_createacc2;
     private String fullname, phone, email;
     private FirebaseAuth mAuth;
@@ -48,6 +48,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         et_phone2 = findViewById(R.id.et_phone2);
         et_email2 = findViewById(R.id.et_email2);
         et_password2 = findViewById(R.id.et_password2);
+        et_password3 = findViewById(R.id.et_password3);
         btn_createacc2 = findViewById(R.id.btn_createacc2);
 
         btn_createacc2.setOnClickListener(this);
@@ -62,6 +63,10 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             if(et_firstname.getText().toString().isEmpty() || et_lastname.getText().toString().isEmpty() || et_phone2.getText().toString().isEmpty()||et_email2.getText().toString().isEmpty() ||et_password2.getText().toString().isEmpty())
             {
                 Toast.makeText(this, "Please Fill in all Fields", Toast.LENGTH_SHORT).show();
+            }
+            else if(!(et_password2.getText().toString().equals(et_password3.getText().toString())))
+            {
+                Toast.makeText(this, "Passwords do not Match", Toast.LENGTH_SHORT).show();
             }
             else {
                 mAuth.createUserWithEmailAndPassword(et_email2.getText().toString(),
