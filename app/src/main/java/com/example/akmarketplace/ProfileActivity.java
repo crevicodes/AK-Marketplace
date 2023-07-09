@@ -36,7 +36,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private Button btn_changePassword, btn_changePhone;
 
-    Toolbar toolbar3;
+    private Toolbar toolbar3;
 
 
     FirebaseFirestore fStore;

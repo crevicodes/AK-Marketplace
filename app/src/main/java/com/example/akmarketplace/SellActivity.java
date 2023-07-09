@@ -57,7 +57,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
     //private Item newItem;
     private Toolbar toolbar2;
     private String targetEmail, targetFullname, targetPhone;
-    private EditText et_Title, et_Description;
+    private EditText et_Title, et_Description, et_Price;
     private Uri imageUri;
 
 
@@ -80,6 +80,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
         loc_meetupLocation = null;
         et_Title = findViewById(R.id.et_Title);
         et_Description = findViewById(R.id.et_Description);
+        et_Price = findViewById(R.id.et_Price);
 
         btn_Browse2.setOnClickListener(this);
         btn_Profile2.setOnClickListener(this);
@@ -147,6 +148,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
                 item.put("time_added_millis", timeAdded); //data type = long
                 item.put("title", et_Title.getText().toString());
                 item.put("description", et_Description.getText().toString());
+                item.put("price", Double.parseDouble(et_Price.getText().toString()));
 
                 StorageReference storeRef = BrowseActivity.storage.getReference().child(et_Title.getText().toString()+(et_Description.getText().toString().length()>7 ? et_Description.getText().toString().substring(0,7) : et_Description.getText().toString()));
                 //FirebaseFirestore dbRef = BrowseActivity.db.get
@@ -201,6 +203,9 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
             if (et_Description.getText().toString().replaceAll(" ", "").isEmpty()) {
                 message = message.concat("Item Description\n");
             }
+            if (et_Price.getText().toString().replaceAll(" ", "").isEmpty()) {
+                message = message.concat("Item Price\n");
+            }
             if (img_itemImage == null) {
                 message = message.concat("Item Image\n");
             }
@@ -224,6 +229,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
     public void clearFields() {
         et_Title.setText("");
         et_Description.setText("");
+        et_Price.setText("");
         img_itemDisplay.setImageDrawable(img_Default.getDrawable());
         img_itemImage = null;
         loc_meetupLocation = null;

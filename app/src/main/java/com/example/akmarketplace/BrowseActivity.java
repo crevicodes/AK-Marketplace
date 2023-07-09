@@ -1,27 +1,50 @@
 package com.example.akmarketplace;
 
+import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.FileDescriptor;
+import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.zip.Inflater;
 
-public class BrowseActivity extends AppCompatActivity implements View.OnClickListener {
+public class BrowseActivity extends AppCompatActivity implements View.OnClickListener, TextView.OnEditorActionListener {
 
     //private TextView tv_welcometitle;
 
@@ -29,7 +52,11 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
     static FirebaseStorage storage;
     private Button btn_Browse1, btn_Sell1, btn_Profile1;
     private EditText et_Search;
-    Toolbar toolbar1;
+    private Toolbar toolbar1;
+    private ArrayList<Item> items;
+    private ArrayList<Item> filteredItems;
+    ListView lv_items;
+    private String search_key;
 
 
     @Override
@@ -61,7 +88,15 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         toolbar1 = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar1);
 
-        //updateDisplay();
+        items = new ArrayList<>();
+        filteredItems = new ArrayList<>();
+        lv_items = findViewById(R.id.lv_items);
+
+
+        et_Search.setOnEditorActionListener(this);
+        search_key = "";
+
+        updateDisplay(search_key);
 
     }
 
@@ -95,7 +130,73 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         return super.onOptionsItemSelected(item);
     }
 
+    public void updateDisplay(String key) {
+        items = new ArrayList<>();
+        filteredItems = new ArrayList<>();
+        BrowseActivity.db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        items.add(document.toObject(Item.class));
+                    }
 
+                    //items.sort((o1, o2) -> o1.getTime_added_millis().compareTo(o2.getTime_added_millis()));
+
+                    ArrayList<HashMap<String, Object>> data = new ArrayList<>();
+                    for (Item i : items) {
+                        if (i.getTitle().replaceAll(" ", "").toLowerCase().contains(key)) {
+                            HashMap<String, Object> map = new HashMap<>();
+                            map.put("title", i.getTitle());
+
+                            //StorageReference storeRef = BrowseActivity.storage.getReference().child(i.getTitle()+(i.getDescription().length()>7 ? i.getDescription().substring(0,7) : i.getDescription()));
+
+                            //map.put("image", i.getImage());
+
+                            map.put("seller", i.getSellerName());
+                            map.put("price", i.getPrice());
+                            data.add(map);
+                            filteredItems.add(i);
+                        }
+                    }
+
+                    int resource = R.layout.listview_item;
+                    String[] from = {/*"image",*/"title","seller","price"};
+                    int[] to = {/*R.id.img_itemImage,*/ R.id.tv_itemTitle, R.id.tv_itemSeller, R.id.tv_itemPrice};
+
+                    SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), data, resource, from, to);
+                    lv_items.setAdapter(adapter);
+                }
+            }
+        });
+
+
+    }
+
+
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if(et_Search.getText().toString().replaceAll(" ","").isEmpty()) search_key = "";
+        else {
+            search_key = et_Search.getText().toString().replaceAll(" ", "").toLowerCase();
+        }
+        updateDisplay(search_key);
+        return false;
+    }
+
+    private void uriToBitmap(Uri selectedFileUri) {
+        try {
+            ParcelFileDescriptor parcelFileDescriptor =
+                    getContentResolver().openFileDescriptor(selectedFileUri, "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+            Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+
+            parcelFileDescriptor.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
