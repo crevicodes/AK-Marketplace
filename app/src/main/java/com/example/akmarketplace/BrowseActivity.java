@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.zip.Inflater;
 
@@ -24,6 +25,8 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
 
     //private TextView tv_welcometitle;
 
+    static FirebaseFirestore db;
+    static FirebaseStorage storage;
     private Button btn_Browse1, btn_Sell1, btn_Profile1;
     private EditText et_Search;
     Toolbar toolbar1;
@@ -42,6 +45,9 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
             //tv_welcometitle.setText("Welcome, " + name);
         }
 
+        db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
+
         btn_Browse1 = findViewById(R.id.btn_Browse1);
         btn_Sell1 = findViewById(R.id.btn_Sell1);
         btn_Profile1 = findViewById(R.id.btn_Profile1);
@@ -52,7 +58,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         btn_Browse1.setOnClickListener(this);
 
 
-        toolbar1 = findViewById(R.id.toolbar1);
+        toolbar1 = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar1);
 
     }
@@ -86,6 +92,8 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
     {
         return super.onOptionsItemSelected(item);
     }
+
+
 
 
 

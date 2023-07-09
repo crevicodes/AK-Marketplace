@@ -34,10 +34,14 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBrDSpUo8WZ19VmTI_Nqpe3ffQMAMhMxno" />
+            android:value="YOUR_API_KEY" />
 
         <activity
             android:name=".MapsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_maps" />
+        <activity
+            android:name=".SetLocActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
         <activity
