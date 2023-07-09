@@ -31,10 +31,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private Button btn_Browse3;
     private Button btn_Sell3;
     private Button btn_Profile3;
+
+    private Button btn_editViewItems;
     private TextView tv_Fullname, tv_Email, tv_Phone;
     private String targetEmail;
 
-    private Button btn_changePassword, btn_changePhone;
+    private Button btn_changePhone;
 
     private Toolbar toolbar3;
 
@@ -56,7 +58,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         btn_Sell3 = findViewById(R.id.btn_Sell3);
         btn_Profile3 = findViewById(R.id.btn_Profile3);
         btn_changePhone = findViewById(R.id.btn_changePhone);
-
+        btn_editViewItems = findViewById(R.id.btn_editViewItems);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         targetEmail = user.getEmail();
@@ -73,10 +75,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         });
 
 
-        btn_changePassword.setOnClickListener(this);
         btn_changePhone.setOnClickListener(this);
         btn_Browse3.setOnClickListener(this);
         btn_Sell3.setOnClickListener(this);
+        btn_editViewItems.setOnClickListener(this);
+
 
 
         toolbar3 = findViewById(R.id.toolbar3);
@@ -121,6 +124,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             alert.setNegativeButton("Cancel", null);
 
             alert.show();
+        }
+        else if(v.getId() == R.id.btn_editViewItems)
+        {
+            Intent editViewItems = new Intent(this, EditViewListActivity.class);
+            startActivity(editViewItems);
         }
 
     }

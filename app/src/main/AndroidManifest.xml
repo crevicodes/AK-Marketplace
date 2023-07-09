@@ -21,6 +21,12 @@
         android:theme="@style/Theme.AKMarketplace"
         tools:targetApi="31">
         <activity
+            android:name=".EditItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditViewListActivity"
+            android:exported="false" />
+        <activity
             android:name=".ItemViewActivity"
             android:exported="false" />
         <!--

@@ -126,17 +126,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <Button
                     android:id="@+id/btn_changePhone"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="20dp"
+                    android:backgroundTint="#FEA700"
+                    android:text="Change Phone Number"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:id="@+id/btn_editViewItems"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginVertical="20dp"
                     android:layout_weight="1"
                     android:backgroundTint="#FEA700"
-                    android:text="Change Phone Number"
+                    android:text="Edit/View Listed Items"
                     android:textColor="@android:color/white" />
             </LinearLayout>
 
