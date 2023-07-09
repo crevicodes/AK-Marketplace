@@ -133,7 +133,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
                 item.put("title", et_Title.getText().toString());
                 item.put("description", et_Description.getText().toString());
 
-                StorageReference storeRef = BrowseActivity.storage.getReference().child("image");
+                StorageReference storeRef = BrowseActivity.storage.getReference();//.child("image");
                 //FirebaseFirestore dbRef = BrowseActivity.db.get
                 storeRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -219,11 +219,11 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==101) {
             Bitmap pic = data.getParcelableExtra("data");
-            Uri picture = getImageUri(getApplicationContext(), pic);
-            img_itemDisplay.setImageURI(picture);
-            imageUri = picture;
+            imageUri = getImageUri(getApplicationContext(), pic);
+            img_itemDisplay.setImageURI(imageUri);
+            //imageUri = picture;
             img_itemImage = img_itemDisplay;
-            Toast.makeText(getApplicationContext(),picture.toString(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),imageUri.toString(),Toast.LENGTH_SHORT).show();
         }
         else if (requestCode==201) {
             Double locLat = data.getDoubleExtra("replyLat",0);
