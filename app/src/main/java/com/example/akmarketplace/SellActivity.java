@@ -32,7 +32,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.android.gms.maps.model.LatLng;
@@ -94,8 +97,20 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         targetEmail = user.getEmail();
-        targetFullname = user.getDisplayName();
-        targetPhone = user.getPhoneNumber();
+
+        DocumentReference docRef = BrowseActivity.db.collection("users").document(targetEmail);
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                AccountUser user1 = documentSnapshot.toObject(AccountUser.class);
+                targetFullname = user1.getFullname();
+                targetPhone = user1.getPhone();
+            }
+        });
+
+
+        //targetFullname = user.getDisplayName();
+        // = user.getPhoneNumber();
 
         //newItem = new Item();
 
@@ -133,19 +148,19 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
                 item.put("title", et_Title.getText().toString());
                 item.put("description", et_Description.getText().toString());
 
-                StorageReference storeRef = BrowseActivity.storage.getReference();//.child("image");
+                StorageReference storeRef = BrowseActivity.storage.getReference().child(et_Title.getText().toString()+(et_Description.getText().toString().length()>7 ? et_Description.getText().toString().substring(0,7) : et_Description.getText().toString()));
                 //FirebaseFirestore dbRef = BrowseActivity.db.get
-                storeRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        storeRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                item.put("image", uri.toString());
-                            }
-                        });
-                    }
-                });
+                storeRef.putFile(imageUri);//.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    //@Override
+                    //public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        //storeRef.getDownloadUrl();//.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            //@Override
+                            //public void onSuccess(Uri uri) {
+                                item.put("image", storeRef.getDownloadUrl().toString());
+                            //}
+                        //});
+                    //}
+                //});
 
                 //item.put("image", imageUri);
                 item.put("locationLat", loc_meetupLocation.latitude); //data type = double

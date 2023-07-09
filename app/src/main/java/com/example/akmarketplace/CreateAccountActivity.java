@@ -81,6 +81,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                                             FirebaseUser user = mAuth.getCurrentUser();
                                             user.updateEmail(et_email2.getText().toString());
 
+
                                             //user.updatePhoneNumber( );
                                     /*UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                             .setDisplayName(et_firstname.getText().toString() + " " + et_lastname.getText().toString())
