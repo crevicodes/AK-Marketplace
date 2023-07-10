@@ -9,6 +9,7 @@
         android:id="@+id/img_itemImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginRight="15dp"
         app:srcCompat="@android:drawable/btn_star_big_on" />
 
     <LinearLayout

@@ -83,7 +83,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_DENIED)
-        ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.CAMERA}, 102);
+            ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.CAMERA}, 102);
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -168,8 +168,10 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
 
                 items.document(Long.toString(timeAdded)).set(item);
 
+                clearFields();
+
                 StorageReference storeRef = BrowseActivity.storage.getReference().child("items/"+et_Title.getText().toString()+(et_Description.getText().toString().length()>7 ? et_Description.getText().toString().substring(0,7) : et_Description.getText().toString())+".jpg");
-                //FirebaseFirestore dbRef = BrowseActivity.db.get
+
                 UploadTask uploadTask = storeRef.putFile(imageUri);
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -183,7 +185,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
 
-                clearFields();
+
             }
         }
     }

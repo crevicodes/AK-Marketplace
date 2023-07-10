@@ -10,6 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginVertical="20dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -25,6 +27,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -36,56 +39,73 @@
                 android:id="@+id/tv_itemView_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Item Title" />
+                android:text="Item Title"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tv_itemView_curr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="AED" />
+                    android:layout_gravity="left"
+                    android:layout_marginRight="3dp"
+                    android:text="AED"
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/tv_itemView_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="00.00" />
+                    android:text="00.00"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:layout_marginTop="3dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Contact " />
+                    android:text="Contact "
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/tv_itemView_sellerName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="S. Name" />
+                    android:text="S. Name"
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/textView13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" : " />
+                    android:text=" : "
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/tv_itemView_sellerPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="S. Phone" />
+                    android:text="S. Phone"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </LinearLayout>
@@ -95,6 +115,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:orientation="horizontal">
 
@@ -111,7 +133,8 @@
                     android:id="@+id/tv_itemView_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Description..." />
+                    android:text="Description..."
+                    android:textSize="20sp" />
             </LinearLayout>
         </ScrollView>
 
@@ -120,6 +143,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"
         android:gravity="right"
         android:orientation="horizontal">
 
@@ -127,18 +153,23 @@
             android:id="@+id/tv_itemView_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View location..." />
+            android:text="View location..."
+            android:textColor="#2196F3"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_itemView_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="75dp"
             android:layout_weight="1"
             android:text="Back" />
 

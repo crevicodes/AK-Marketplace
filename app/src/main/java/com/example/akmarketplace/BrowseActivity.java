@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -53,7 +54,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.zip.Inflater;
 
-public class BrowseActivity extends AppCompatActivity implements View.OnClickListener, TextView.OnEditorActionListener {
+public class BrowseActivity extends AppCompatActivity implements View.OnClickListener, TextView.OnEditorActionListener, AdapterView.OnItemClickListener {
 
     //private TextView tv_welcometitle;
 
@@ -102,6 +103,8 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         items = new ArrayList<>();
         filteredItems = new ArrayList<>();
         lv_items = findViewById(R.id.lv_items);
+
+        lv_items.setOnItemClickListener(this);
 
 
         et_Search.setOnEditorActionListener(this);
@@ -263,6 +266,14 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent itemIntent = new Intent(getApplicationContext(), ItemViewActivity.class);
+        itemIntent.putExtra("position", position);
+        itemIntent.putExtra("search", search_key);
+        startActivity(itemIntent);
     }
 
 
