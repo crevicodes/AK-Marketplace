@@ -179,7 +179,7 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
                 startActivityForResult(cameraIntent, 101);
             }
         }
-        if(v.getId() == R.id.btn_ConfirmEdit)
+        else if(v.getId() == R.id.btn_ConfirmEdit)
         {
             if(verifyFields())
             {
@@ -207,6 +207,10 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
                 });
                 //finish();
                 Toast.makeText(this, "Confirm Edit", Toast.LENGTH_SHORT).show();
+            }
+            else if (v.getId() == R.id.btn_DeleteItem) {
+                BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).delete();
+                finish();
             }
 
         }
