@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -146,8 +147,7 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
                     et_Title.setText(currentItem.getTitle());
                     et_Description.setText(currentItem.getDescription());
                     et_Price.setText(Double.toString(currentItem.getPrice()));
-                    locationLat = currentItem.getLocationLat();
-                    locationLng = currentItem.getLocationLng();
+                    loc_meetupLocation = new LatLng(currentItem.getLocationLat(), currentItem.getLocationLng());
                 }
             }
         });
@@ -184,31 +184,46 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
             if(verifyFields())
             {
                 BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("title", et_Title.getText().toString());
+                Log.d("Tests", "1");
                 BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("description", et_Description.getText().toString());
+                Log.d("Tests", "2");
                 BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("price", Double.parseDouble(et_Price.getText().toString()));
-
+                Log.d("Tests", "3");
                 //BrowseActivity.db.document(Long.toString(currentItem.getTime_added_millis())).update("image", imageUri.toString());
                 BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("locationLat", loc_meetupLocation.latitude);
+                Log.d("Tests", "4");
                 BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("locationLng", loc_meetupLocation.longitude);
-
+                Log.d("Tests", "5");
                 StorageReference storeRef = BrowseActivity.storage.getReference().child("items/"+et_Title.getText().toString()+(et_Description.getText().toString().length()>7 ? et_Description.getText().toString().substring(0,7) : et_Description.getText().toString())+".jpg");
-
+                Log.d("Tests", "6");
                 UploadTask uploadTask = storeRef.putFile(imageUri);
+                Log.d("Tests", "7");
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         storeRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
+                                Log.d("Tests", "8");
                                 BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("image", uri.toString());
+                                Log.d("Tests", "9");
                             }
                         });
                     }
                 });
                 //finish();
                 Toast.makeText(this, "Confirm Edit", Toast.LENGTH_SHORT).show();
+                //Intent intent = new Intent(this, EditItemActivity.class);
+                //startActivity(intent);
+
             }
 
+        }
+        if(v.getId() == R.id.btn_DeleteItem)
+        {
+            BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).delete();
+            Intent intent = new Intent(this, EditViewListActivity.class);
+            startActivity(intent);
         }
     }
 
