@@ -3,9 +3,11 @@ package com.example.akmarketplace;
 import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -134,8 +136,11 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_About) {
-            Intent aboutintent = new Intent(this, AboutActivity.class);
-            startActivity(aboutintent);
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setView(R.layout.activity_about);
+            dialog.setTitle("About");
+            dialog.setPositiveButton("Ok", null);
+            dialog.show();
             return true;
         } else if (item.getItemId() == R.id.menu_LogOut) {
             Intent logoutintent = new Intent(this, LoginActivity.class);

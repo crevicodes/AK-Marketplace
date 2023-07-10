@@ -98,7 +98,10 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(cameraIntent, 101);
         }
-        if()
+        if(v.getId() == R.id.btn_ConfirmEdit)
+        {
+
+        }
     }
 
     @Override
