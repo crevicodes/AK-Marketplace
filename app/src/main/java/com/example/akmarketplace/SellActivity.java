@@ -273,8 +273,11 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_About) {
-            Intent aboutintent = new Intent(this, AboutActivity.class);
-            startActivity(aboutintent);
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setView(R.layout.activity_about);
+            dialog.setTitle("About");
+            dialog.setPositiveButton("Ok", null);
+            dialog.show();
             return true;
         } else if (item.getItemId() == R.id.menu_LogOut) {
             Intent logoutintent = new Intent(this, LoginActivity.class);
