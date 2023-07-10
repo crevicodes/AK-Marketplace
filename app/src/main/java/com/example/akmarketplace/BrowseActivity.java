@@ -132,9 +132,21 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        return super.onOptionsItemSelected(item);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_About) {
+            Intent aboutintent = new Intent(this, AboutActivity.class);
+            startActivity(aboutintent);
+            return true;
+        } else if (item.getItemId() == R.id.menu_LogOut) {
+            Intent logoutintent = new Intent(this, LoginActivity.class);
+            startActivity(logoutintent);
+            return true;
+        } else if (item.getItemId() == R.id.menu_QuitApp) {
+            this.finishAffinity();
+            return true;
+        }
+            return super.onOptionsItemSelected(item);
+
     }
 
     public void updateDisplay(String key) {

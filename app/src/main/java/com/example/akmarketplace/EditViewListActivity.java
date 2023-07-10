@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,6 +116,7 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
         editItem.putExtra("price", item.getPrice());
         editItem.putExtra("locationLat", item.getLocationLat());
         editItem.putExtra("locationLng", item.getLocationLng());
+        editItem.putExtra("imageUri", item.getImage());
         startActivity(editItem);
     }
 }

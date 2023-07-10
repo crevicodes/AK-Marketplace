@@ -183,16 +183,28 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="80dp"
                 android:layout_marginVertical="10dp"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_DeleteItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Enlist Item"
+                    android:layout_marginHorizontal="20dp"
+                    android:backgroundTint="@color/primarycolor"
+                    android:text="Delete Item"
+                    android:textSize="18sp"
+                    app:shapeAppearanceOverlay="@style/TextAppearance.AppCompat.Button" />
+
+                <Button
+                    android:id="@+id/btn_ConfirmEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:autoText="false"
+                    android:backgroundTint="#FDA600"
+                    android:text="Confirm Edit"
                     android:textSize="18sp"
                     app:shapeAppearanceOverlay="@style/TextAppearance.AppCompat.Button" />
 
@@ -200,44 +212,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/primarycolor"
-            android:clipToOutline="false"
-            android:gravity="bottom"
-            android:layoutMode="clipBounds"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_Browse2"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_search"
-                android:text="Browse" />
-
-            <Button
-                android:id="@+id/btn_Sell2"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_sell"
-                android:text="Sell" />
-
-            <Button
-                android:id="@+id/btn_Profile2"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_profile"
-                android:text="My Profile" />
-
-        </LinearLayout>
     </LinearLayout>
 
 

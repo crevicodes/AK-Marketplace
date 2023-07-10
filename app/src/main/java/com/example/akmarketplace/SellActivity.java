@@ -1,6 +1,5 @@
 package com.example.akmarketplace;
 
-import static android.content.ContentValues.TAG;
 import static java.lang.System.currentTimeMillis;
 
 import androidx.annotation.Nullable;
@@ -15,11 +14,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,18 +31,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,7 +62,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
         btn_Profile2 = findViewById(R.id.btn_Profile2);
         btn_Image = findViewById(R.id.btn_Image);
         btn_Location = findViewById(R.id.btn_Location);
-        btn_EnlistItem = findViewById(R.id.btn_EnlistItem);
+        btn_EnlistItem = findViewById(R.id.btn_DeleteItem);
         img_itemDisplay = findViewById(R.id.img_itemDisplay);
         img_Default = new ImageView(getApplicationContext());
         img_Default.setImageDrawable(img_itemDisplay.getDrawable());
@@ -92,8 +82,8 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar2);
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_DENIED);
-        ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.CAMERA}, 202);
+                == PackageManager.PERMISSION_DENIED)
+        ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.CAMERA}, 102);
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -126,8 +116,19 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
 
         }
         else if (v.getId() == R.id.btn_Image) {
-            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(cameraIntent, 101);
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.CAMERA}, 102);
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, 101);
+                }
+            }
+            else {
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, 101);
+            }
         }
         else if (v.getId() == R.id.btn_Browse2) {
             Intent browseIntent = new Intent(getApplicationContext(), BrowseActivity.class);
@@ -139,7 +140,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(profileIntent);
             finish();
         }
-        else if (v.getId() == R.id.btn_EnlistItem) {
+        else if (v.getId() == R.id.btn_DeleteItem) {
             boolean checkFields = verifyFields();
             if (checkFields) {
                 CollectionReference items = BrowseActivity.db.collection("items");
@@ -268,9 +269,21 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_About) {
+            Intent aboutintent = new Intent(this, AboutActivity.class);
+            startActivity(aboutintent);
+            return true;
+        } else if (item.getItemId() == R.id.menu_LogOut) {
+            Intent logoutintent = new Intent(this, LoginActivity.class);
+            startActivity(logoutintent);
+            return true;
+        } else if (item.getItemId() == R.id.menu_QuitApp) {
+            this.finishAffinity();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+
     }
 
 

@@ -77,7 +77,12 @@ public class SetLocActivity extends FragmentActivity implements OnMapReadyCallba
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        meetupCoordinates = new LatLng(25.310338125326922, 55.491244819864185);
+        Intent mapsIntent = getIntent();
+        double locationLat = mapsIntent.getDoubleExtra("locationLat", 25.310338125326922);
+        double locationLng = mapsIntent.getDoubleExtra("locationLng", 55.491244819864185);
+
+
+        meetupCoordinates = new LatLng(locationLat, locationLng);
         meetupLocation = new MarkerOptions().position(meetupCoordinates).title("AUS");
         mMap.addMarker(meetupLocation);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(meetupCoordinates, 15.0f));
