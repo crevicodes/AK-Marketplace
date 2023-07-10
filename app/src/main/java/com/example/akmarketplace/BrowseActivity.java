@@ -17,8 +17,10 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
@@ -59,6 +62,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
     private ArrayList<Item> filteredItems;
     ListView lv_items;
     private String search_key;
+    ImageView img_itemImage;
 
 
     @Override
@@ -81,6 +85,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         btn_Sell1 = findViewById(R.id.btn_Sell1);
         btn_Profile1 = findViewById(R.id.btn_Profile1);
         et_Search = findViewById(R.id.et_Search);
+
 
         btn_Sell1.setOnClickListener(this);
         btn_Profile1.setOnClickListener(this);
@@ -146,29 +151,43 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
                     items.sort(Comparator.comparingLong(Item::getTime_added_millis));
                     Collections.reverse(items);
 
-                    ArrayList<HashMap<String, Object>> data = new ArrayList<>();
+                    ArrayList<HashMap<String, String>> data = new ArrayList<>();
                     for (Item i : items) {
                         if (i.getTitle().replaceAll(" ", "").toLowerCase().contains(key)) {
-                            HashMap<String, Object> map = new HashMap<>();
+                            HashMap<String, String> map = new HashMap<>();
                             map.put("title", i.getTitle());
 
                             //StorageReference storeRef = BrowseActivity.storage.getReference().child(i.getTitle()+(i.getDescription().length()>7 ? i.getDescription().substring(0,7) : i.getDescription()));
 
-                            //map.put("image", i.getImage());
+                            map.put("image", i.getImage());
 
                             map.put("seller", i.getSellerName());
-                            map.put("price", i.getPrice());
+                            map.put("price", Double.toString(i.getPrice()));
                             data.add(map);
                             filteredItems.add(i);
                         }
                     }
 
                     int resource = R.layout.listview_item;
-                    String[] from = {/*"image",*/"title","seller","price"};
-                    int[] to = {/*R.id.img_itemImage,*/ R.id.tv_itemTitle, R.id.tv_itemSeller, R.id.tv_itemPrice};
+                    String[] from = {"image","title","seller","price"};
+                    int[] to = {R.id.img_itemImage, R.id.tv_itemTitle, R.id.tv_itemSeller, R.id.tv_itemPrice};
 
-                    SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), data, resource, from, to);
+                    SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), data, resource, from, to) {
+                        @Override
+                        public View getView(int position, View convertView, ViewGroup parent) {
+                            View view = super.getView(position, convertView, parent);
+
+                            ImageView img_itemImage = view.findViewById(R.id.img_itemImage);
+                            String imageURL = data.get(position).get("image");
+
+                            Picasso.get().load(imageURL).into(img_itemImage);
+
+                            return view;
+                        }
+                    };
                     lv_items.setAdapter(adapter);
+
+
                 }
             }
         });
@@ -196,6 +215,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
             Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
 
             parcelFileDescriptor.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -150,21 +150,8 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
                 item.put("description", et_Description.getText().toString());
                 item.put("price", Double.parseDouble(et_Price.getText().toString()));
 
-                StorageReference storeRef = BrowseActivity.storage.getReference().child(et_Title.getText().toString()+(et_Description.getText().toString().length()>7 ? et_Description.getText().toString().substring(0,7) : et_Description.getText().toString()));
-                //FirebaseFirestore dbRef = BrowseActivity.db.get
-                storeRef.putFile(imageUri);//.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    //@Override
-                    //public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        //storeRef.getDownloadUrl();//.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            //@Override
-                            //public void onSuccess(Uri uri) {
-                                item.put("image", storeRef.getDownloadUrl().toString());
-                            //}
-                        //});
-                    //}
-                //});
 
-                //item.put("image", imageUri);
+                item.put("image", "");
                 item.put("locationLat", loc_meetupLocation.latitude); //data type = double
                 item.put("locationLng", loc_meetupLocation.longitude);
 
@@ -180,8 +167,20 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
 
                 items.document(Long.toString(timeAdded)).set(item);
 
-                Toast.makeText(getApplicationContext(), "Item Successfully Enlisted",
-                        Toast.LENGTH_SHORT).show();
+                StorageReference storeRef = BrowseActivity.storage.getReference().child("items/"+et_Title.getText().toString()+(et_Description.getText().toString().length()>7 ? et_Description.getText().toString().substring(0,7) : et_Description.getText().toString())+".jpg");
+                //FirebaseFirestore dbRef = BrowseActivity.db.get
+                UploadTask uploadTask = storeRef.putFile(imageUri);
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        storeRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                items.document(Long.toString(timeAdded)).update("image", uri.toString());
+                            }
+                        });
+                    }
+                });
 
                 clearFields();
             }
