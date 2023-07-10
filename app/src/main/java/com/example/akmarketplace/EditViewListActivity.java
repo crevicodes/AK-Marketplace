@@ -46,9 +46,6 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_view_list);
 
-        items = new ArrayList<>();
-        filteredItems = new ArrayList<>();
-
 
 
         toolbar1 = findViewById(R.id.toolbar1);
@@ -59,6 +56,9 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         targetEmail = user.getEmail();
+
+        items = new ArrayList<>();
+        filteredItems = new ArrayList<>();
 
         updateDisplay(targetEmail);
     }
