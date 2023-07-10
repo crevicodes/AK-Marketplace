@@ -41,6 +41,8 @@ import java.io.FileDescriptor;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.zip.Inflater;
 
@@ -141,7 +143,8 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
                         items.add(document.toObject(Item.class));
                     }
 
-                    //items.sort((o1, o2) -> o1.getTime_added_millis().compareTo(o2.getTime_added_millis()));
+                    items.sort(Comparator.comparingLong(Item::getTime_added_millis));
+                    Collections.reverse(items);
 
                     ArrayList<HashMap<String, Object>> data = new ArrayList<>();
                     for (Item i : items) {

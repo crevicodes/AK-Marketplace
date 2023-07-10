@@ -141,7 +141,7 @@ public class SetLocActivity extends FragmentActivity implements OnMapReadyCallba
     }
     @SuppressLint("MissingPermission")
     public void onRequestPermissionsResult(
-            int requestCode, String[] permissions, int[] grantResults) {
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 202) {
             if (grantResults.length == 1
@@ -154,8 +154,6 @@ public class SetLocActivity extends FragmentActivity implements OnMapReadyCallba
                 finish(); //no point continuing with the app
         }
     }
-
-
 
 
 }
