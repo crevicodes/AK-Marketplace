@@ -137,5 +137,6 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
         editItem.putExtra("locationLng", item.getLocationLng());
         editItem.putExtra("imageUri", item.getImage());*/
         startActivity(editItem);
+        //finish();
     }
 }

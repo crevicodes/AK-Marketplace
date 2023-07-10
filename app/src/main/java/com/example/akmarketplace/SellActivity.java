@@ -1,6 +1,7 @@
 package com.example.akmarketplace;
 
 import static java.lang.System.currentTimeMillis;
+import static java.lang.Thread.sleep;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -31,6 +32,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.android.gms.maps.model.LatLng;
@@ -62,7 +64,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
         btn_Profile2 = findViewById(R.id.btn_Profile2);
         btn_Image = findViewById(R.id.btn_Image);
         btn_Location = findViewById(R.id.btn_Location);
-        btn_EnlistItem = findViewById(R.id.btn_DeleteItem);
+        btn_EnlistItem = findViewById(R.id.btn_EnlistItem);
         img_itemDisplay = findViewById(R.id.img_itemDisplay);
         img_Default = new ImageView(getApplicationContext());
         img_Default.setImageDrawable(img_itemDisplay.getDrawable());
@@ -140,15 +142,17 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(profileIntent);
             finish();
         }
-        else if (v.getId() == R.id.btn_DeleteItem) {
+        else if (v.getId() == R.id.btn_EnlistItem) {
             boolean checkFields = verifyFields();
             if (checkFields) {
                 CollectionReference items = BrowseActivity.db.collection("items");
                 Map<String, Object> item = new HashMap<>();
                 long timeAdded = currentTimeMillis();
                 item.put("time_added_millis", timeAdded); //data type = long
-                item.put("title", et_Title.getText().toString());
-                item.put("description", et_Description.getText().toString());
+                String temp_title = et_Title.getText().toString();
+                String temp_desc = et_Description.getText().toString();
+                item.put("title", temp_title);
+                item.put("description", temp_desc);
                 item.put("price", Double.parseDouble(et_Price.getText().toString()));
 
 
@@ -170,16 +174,24 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
 
                 clearFields();
 
-                StorageReference storeRef = BrowseActivity.storage.getReference().child("items/"+et_Title.getText().toString()+(et_Description.getText().toString().length()>7 ? et_Description.getText().toString().substring(0,7) : et_Description.getText().toString())+".jpg");
+                StorageReference storeRef = BrowseActivity.storage.getReference().child("items/"+temp_title+(temp_desc.length()>7 ? temp_desc.substring(0,7) : temp_desc)+".jpg");
 
                 UploadTask uploadTask = storeRef.putFile(imageUri);
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            try {
+                                sleep(500);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+
                         storeRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
                                 items.document(Long.toString(timeAdded)).update("image", uri.toString());
+                                Toast.makeText(getApplicationContext(),"Item Added", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
