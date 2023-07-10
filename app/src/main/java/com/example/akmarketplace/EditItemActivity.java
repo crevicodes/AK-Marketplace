@@ -156,33 +156,26 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.btn_Location)
-        {
+        if (v.getId() == R.id.btn_Location) {
             Intent mapsIntent = new Intent(getApplicationContext(), SetLocActivity.class);
             mapsIntent.putExtra("locationLat", locationLat);
             mapsIntent.putExtra("locationLng", locationLng);
-            startActivityForResult(mapsIntent,201);
-        }
-        else if(v.getId() == R.id.btn_Image)
-        {
+            startActivityForResult(mapsIntent, 201);
+        } else if (v.getId() == R.id.btn_Image) {
             if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA)
                     == PackageManager.PERMISSION_DENIED) {
-                ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.CAMERA}, 102);
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 102);
                 if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_GRANTED) {
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(cameraIntent, 101);
                 }
-            }
-            else {
+            } else {
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(cameraIntent, 101);
             }
-        }
-        else if(v.getId() == R.id.btn_ConfirmEdit)
-        {
-            if(verifyFields())
-            {
+        } else if (v.getId() == R.id.btn_ConfirmEdit) {
+            if (verifyFields()) {
                 BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("title", et_Title.getText().toString());
                 Log.d("Tests", "1");
                 BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("description", et_Description.getText().toString());
@@ -194,7 +187,7 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
                 Log.d("Tests", "4");
                 BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("locationLng", loc_meetupLocation.longitude);
                 Log.d("Tests", "5");
-                StorageReference storeRef = BrowseActivity.storage.getReference().child("items/"+et_Title.getText().toString()+(et_Description.getText().toString().length()>7 ? et_Description.getText().toString().substring(0,7) : et_Description.getText().toString())+".jpg");
+                StorageReference storeRef = BrowseActivity.storage.getReference().child("items/" + et_Title.getText().toString() + (et_Description.getText().toString().length() > 7 ? et_Description.getText().toString().substring(0, 7) : et_Description.getText().toString()) + ".jpg");
                 Log.d("Tests", "6");
                 UploadTask uploadTask = storeRef.putFile(imageUri);
                 Log.d("Tests", "7");
@@ -215,19 +208,11 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(this, "Confirm Edit", Toast.LENGTH_SHORT).show();
                 //Intent intent = new Intent(this, EditItemActivity.class);
                 //startActivity(intent);
-
-            }
-            else if (v.getId() == R.id.btn_DeleteItem) {
+            } else if (v.getId() == R.id.btn_DeleteItem) {
                 BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).delete();
-                finish();
+                Intent intent = new Intent(this, EditViewListActivity.class);
+                startActivity(intent);
             }
-
-        }
-        if(v.getId() == R.id.btn_DeleteItem)
-        {
-            BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).delete();
-            Intent intent = new Intent(this, EditViewListActivity.class);
-            startActivity(intent);
         }
     }
 
