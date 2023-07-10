@@ -15,6 +15,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -103,6 +105,27 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
 
 
         et_Search.setOnEditorActionListener(this);
+        et_Search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(et_Search.getText().toString().replaceAll(" ","").isEmpty()) search_key = "";
+                else {
+                    search_key = et_Search.getText().toString().replaceAll(" ", "").toLowerCase();
+                }
+                updateDisplay(search_key);
+            }
+        });
+
         search_key = "";
 
         updateDisplay(search_key);
@@ -223,6 +246,10 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         updateDisplay(search_key);
         return false;
     }
+
+
+
+
 
     private void uriToBitmap(Uri selectedFileUri) {
         try {
