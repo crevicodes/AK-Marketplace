@@ -9,7 +9,8 @@
         android:id="@+id/img_itemImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginRight="15dp"
+        android:layout_margin="8dp"
+        android:scaleType="fitXY"
         app:srcCompat="@android:drawable/btn_star_big_on" />
 
     <LinearLayout
@@ -21,7 +22,7 @@
             android:id="@+id/tv_itemTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:text="Item Title"
             android:textColor="@color/design_default_color_primary"
             android:textSize="20sp"
