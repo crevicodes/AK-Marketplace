@@ -1,6 +1,7 @@
 package com.example.akmarketplace;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ListActivity;
@@ -19,6 +20,10 @@ import android.widget.SimpleCursorAdapter;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -69,35 +74,38 @@ public class BuyerListActivity extends ListActivity {
                             }
                         }
                         currentItem = filteredItems.get(itemPosition);
+                        Log.d("CMP", "Got currentItem");
                     }
                 }
             });
+            ArrayList<String> buyerEmails = currentItem.getBuyerEmails();
 
-                       /* int resource = R.layout.listview_item;
-                        String[] from = {"image","title","seller","price"};
-                        int[] to = {R.id.img_itemImage, R.id.tv_itemTitle, R.id.tv_itemSeller, R.id.tv_itemPrice};
+            ArrayList<HashMap<String, String>> data = new ArrayList<>();
 
-                        SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), data, resource, from, to) {
-                            @Override
-                            public View getView(int position, View convertView, ViewGroup parent) {
-                                View view = super.getView(position, convertView, parent);
+            for(String email: buyerEmails)
+            {
+                HashMap<String, String> map = new HashMap<>();
+                DocumentReference docRef = BrowseActivity.db.collection("users").document(email);
 
-                                ImageView img_itemImage = view.findViewById(R.id.img_itemImage);
-                                String imageURL = data.get(position).get("image");
-
-                                Picasso.get().load(imageURL).into(img_itemImage);
-
-                                return view;
-                            }
-                        };
-                        lv_items.setAdapter(adapter);
-
-
+                docRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                       String fullname = value.getString("fullname");
+                       String phone = value.getString("phone");
+                       map.put("fullname", fullname);
+                       map.put("phone", phone);
                     }
-                }
-            });
+                });
+                data.add(map);
+            }
+                       int resource = R.layout.activity_buyer_list_item;
+                        String[] from = {"fullname","phone"};
+                        int[] to = {R.id.tv_BuyerNameItem, R.id.tv_BuyerPhoneItem};
 
-        }*/
-    }
+                        SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), data, resource, from, to);
+                        buyerListView.setAdapter(adapter);
+            Log.d("CMP", "Set Adapter");
 
+
+        }
 }
