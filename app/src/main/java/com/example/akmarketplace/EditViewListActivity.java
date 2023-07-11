@@ -1,5 +1,7 @@
 package com.example.akmarketplace;
 
+import static java.lang.Thread.sleep;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,17 +14,13 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -46,7 +44,7 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
         super.onResume();
         items = new ArrayList<>();
         filteredItems = new ArrayList<>();
-        updateDisplay(targetEmail);
+        updateAndDisplay(targetEmail);
     }
 
     @Override
@@ -71,7 +69,20 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
         updateDisplay(targetEmail);*/
     }
 
-    public void updateDisplay(String key) {
+    public void updateAndDisplay(String key) {
+        try {
+            getAndUpdate(key);
+        } catch (Exception e) {
+            try {
+                sleep(500);
+                getAndUpdate(key);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+
+        }
+    }
+    public void getAndUpdate(String key) {
         items = new ArrayList<>();
         filteredItems = new ArrayList<>();
         BrowseActivity.db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

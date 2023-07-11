@@ -1,20 +1,18 @@
 package com.example.akmarketplace;
 
-import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
+import static java.lang.Thread.sleep;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -32,27 +30,21 @@ import android.widget.TextView;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.zip.Inflater;
 
 public class BrowseActivity extends AppCompatActivity implements View.OnClickListener, TextView.OnEditorActionListener, AdapterView.OnItemClickListener {
 
@@ -125,13 +117,13 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
                 else {
                     search_key = et_Search.getText().toString().replaceAll(" ", "").toLowerCase();
                 }
-                updateDisplay(search_key);
+                updateAndDisplay(search_key);
             }
         });
 
         search_key = "";
 
-        updateDisplay(search_key);
+        updateAndDisplay(search_key);
 
     }
 
@@ -180,7 +172,20 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    public void updateDisplay(String key) {
+    public void updateAndDisplay(String key) {
+        try {
+            getAndUpdate(key);
+        } catch (Exception e) {
+            try {
+                sleep(500);
+                getAndUpdate(key);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+
+        }
+    }
+    public void getAndUpdate(String key) {
         items = new ArrayList<>();
         filteredItems = new ArrayList<>();
         BrowseActivity.db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -246,7 +251,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         else {
             search_key = et_Search.getText().toString().replaceAll(" ", "").toLowerCase();
         }
-        updateDisplay(search_key);
+        updateAndDisplay(search_key);
         return false;
     }
 
