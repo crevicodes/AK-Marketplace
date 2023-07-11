@@ -22,16 +22,20 @@
         tools:targetApi="31">
         <activity
             android:name=".AboutActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".EditItemActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".EditViewListActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ItemViewActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -50,29 +54,37 @@
         <activity
             android:name=".MapsActivity"
             android:exported="false"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SetLocActivity"
             android:exported="false"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".BrowseActivity"
             android:exported="false"
-            android:theme="@style/Theme.AKMarketplace" />
+            android:theme="@style/Theme.AKMarketplace"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".SellActivity"
             android:exported="false"
-            android:theme="@style/Theme.AKMarketplace" />
+            android:theme="@style/Theme.AKMarketplace"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ProfileActivity"
             android:exported="false"
-            android:theme="@style/Theme.AKMarketplace" />
+            android:theme="@style/Theme.AKMarketplace"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".CreateAccountActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
