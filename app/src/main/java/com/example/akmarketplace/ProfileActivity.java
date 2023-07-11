@@ -1,5 +1,6 @@
 package com.example.akmarketplace;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +18,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -24,6 +28,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,8 +48,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private Toolbar toolbar3;
 
+    private ArrayList<Item> items;
 
-    FirebaseFirestore fStore;
+
+    //FirebaseFirestore fStore;
     CollectionReference users;
 
     @Override
@@ -49,7 +59,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        fStore = FirebaseFirestore.getInstance();
+        //fStore = FirebaseFirestore.getInstance();
 
         tv_Fullname = findViewById(R.id.tv_Fullname);
         tv_Email = findViewById(R.id.tv_Email);
@@ -59,11 +69,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         btn_Profile3 = findViewById(R.id.btn_Profile3);
         btn_changePhone = findViewById(R.id.btn_changePhone);
         btn_editViewItems = findViewById(R.id.btn_editViewItems);
+        items = new ArrayList<>();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         targetEmail = user.getEmail();
 
-        DocumentReference docRef = fStore.collection("users").document(targetEmail);
+        DocumentReference docRef = BrowseActivity.db.collection("users").document(targetEmail);
 
         docRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -110,20 +121,45 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             alert.setView(edittext);
 
             alert.setPositiveButton("Change", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    if(edittext.getText().toString().equals("")){
-                        Toast.makeText(ProfileActivity.this, "Phone Number was not Entered", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    DocumentReference docRef = fStore.collection("users").document(targetEmail);
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            if (edittext.getText().toString().equals("")) {
+                                Toast.makeText(ProfileActivity.this, "Phone Number was not Entered", Toast.LENGTH_SHORT).show();
+                                return;
+                            } else {
+                                DocumentReference docRef = BrowseActivity.db.collection("users").document(targetEmail);
+                                docRef.update("phone", edittext.getText().toString());
+                                items = new ArrayList<>();
+                                BrowseActivity.db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                items.add(document.toObject(Item.class));
+                                                Log.d("CMP", "Added to ArrayList");
+                                            }
+                                            for (Item i : items) {
+                                                if (i.getSellerEmail().equals(targetEmail)) {
+                                                    BrowseActivity.db.collection("items").document(Long.toString(i.getTime_added_millis())).update("sellerPhone", edittext.getText().toString());
+                                                    Log.d("CMP", "Updated item " + i.getTitle());
+                                                }
+                                            }
 
-                    docRef.update("phone", edittext.getText().toString());
-                }
-            });
+
+                                        }
+                                    }
+
+
+                                });
+
+                            }
+                        }
+                    });
+
 
             alert.setNegativeButton("Cancel", null);
 
             alert.show();
+
         }
         else if(v.getId() == R.id.btn_editViewItems)
         {
