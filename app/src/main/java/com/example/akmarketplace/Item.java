@@ -1,9 +1,6 @@
 package com.example.akmarketplace;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
-
-import com.google.type.LatLng;
+import java.util.ArrayList;
 
 public class Item {
 
@@ -14,10 +11,10 @@ public class Item {
     private boolean isSold;
     private String sellerName;
     private String sellerEmail;
-    private String buyerName;
-    private String buyerEmail;
+    //private String buyerName;
+    private ArrayList<String> buyerEmails;
     private String sellerPhone;
-    private String buyerPhone;
+    //private String buyerPhone;
     private double locationLat;
     private double locationLng;
     private double price;
@@ -36,9 +33,9 @@ public class Item {
         this.locationLng = locationLng;
         this.price = price;
 
-        this.buyerName = "";
-        this.buyerPhone = "";
-        this.buyerEmail = "";
+        //this.buyerName = "";
+        //this.buyerPhone = "";
+        this.buyerEmails = new ArrayList<>();
         this.isSold = false;
     }
 
@@ -102,21 +99,21 @@ public class Item {
         this.sellerEmail = sellerEmail;
     }
 
-    public String getBuyerName() {
+    /*public String getBuyerName() {
         return buyerName;
     }
 
     public void setBuyerName(String buyerName) {
         this.buyerName = buyerName;
-    }
+    }*/
 
-    public String getBuyerEmail() {
+    /*public String getBuyerEmail() {
         return buyerEmail;
     }
 
     public void setBuyerEmail(String buyerEmail) {
         this.buyerEmail = buyerEmail;
-    }
+    }*/
 
     public String getSellerPhone() {
         return sellerPhone;
@@ -126,13 +123,13 @@ public class Item {
         this.sellerPhone = sellerPhone;
     }
 
-    public String getBuyerPhone() {
+    /*public String getBuyerPhone() {
         return buyerPhone;
     }
 
     public void setBuyerPhone(String buyerPhone) {
         this.buyerPhone = buyerPhone;
-    }
+    }*/
 
     public boolean isSold() {
         return isSold;
@@ -164,5 +161,13 @@ public class Item {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public void setBuyerEmails(ArrayList<String> buyerEmails) {
+        this.buyerEmails = buyerEmails;
+    }
+
+    public ArrayList<String> getBuyerEmails() {
+        return this.buyerEmails;
     }
 }

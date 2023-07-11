@@ -38,6 +38,7 @@ import com.google.firebase.storage.UploadTask;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -165,9 +166,9 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
                 item.put("sellerPhone", targetPhone);
 
                 item.put("isSold", false);
-                item.put("buyerName", "");
-                item.put("buyerEmail", "");
-                item.put("buyerPhone", "");
+                item.put("buyerNames", new ArrayList<String>());
+                //item.put("buyerEmail", "");
+                //item.put("buyerPhone", "");
 
 
                 items.document(Long.toString(timeAdded)).set(item);
