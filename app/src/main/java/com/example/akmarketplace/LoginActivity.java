@@ -2,12 +2,18 @@ package com.example.akmarketplace;
 
 import static android.content.ContentValues.TAG;
 
+import static java.lang.Thread.sleep;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -51,6 +57,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btn_createacc.setOnClickListener(this);
         btn_forgotPass.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
+
+
+
+
+
+        /*if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_DENIED) finish();*/
     }
 
     @Override

@@ -18,18 +18,49 @@ public class MarketplaceService extends Service {
 
     private MarketplaceApp app;
     private Timer timer;
-
+    private static final String CHANNEL_ID = "ForeGroundServiceChannel";
 
     @Override
     public void onCreate() {
-
+        app = (MarketplaceApp) getApplication();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("Test", "Service started");
+        Log.d("Test", "FOREGROUND Service started");
+        createNotificationChannel();
+        Intent notificationIntent = new Intent(this, BrowseActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("AK Marketplace App Foreground Service")
+                .setContentText("A foreground service is running...")
+                .setSmallIcon(R.drawable.ak_marketplace_icon_foreground)
+                .setContentIntent(pendingIntent)
+                .setOngoing(false) //non-sticky notification
+                .build();
+
+        startForeground(1, notification);
+
+        //TS: when the system attemps to re-create the service
+        //onStartCommand will be called again (not onCreate)
+        //So call the startTimer() here
+        startTimer();
+
         return START_STICKY;
     }
+
+    private void createNotificationChannel()
+    {
+        NotificationChannel serviceChannel = new NotificationChannel(
+                CHANNEL_ID,"Foreground Service Channel",
+                NotificationManager.IMPORTANCE_DEFAULT
+        );
+        NotificationManager manager = getSystemService(NotificationManager.class);
+        manager.createNotificationChannel(serviceChannel);
+    }
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -54,7 +85,7 @@ public class MarketplaceService extends Service {
 
 
                 // display notification
-                sendNotification("Select to view updated feed.");
+                //sendNotification("Select to view updated feed.");
 
 
             }
