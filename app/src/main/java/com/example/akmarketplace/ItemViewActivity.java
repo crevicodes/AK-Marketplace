@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -42,6 +43,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     private Item selectedItem;
 
     String userEmail;
+    ArrayList<String> buyers = new ArrayList<>();
 
     ImageView img_itemView_display;
     TextView tv_itemView_title, tv_itemView_desc, tv_itemView_price, tv_itemView_sellerName, tv_itemView_sellerPhone;
@@ -51,7 +53,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_view);
 
-        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        //userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         img_itemView_display = findViewById(R.id.img_itemView_display);
         tv_itemView_title = findViewById(R.id.tv_itemView_title);
@@ -68,9 +70,12 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         Intent intent = getIntent();
         search_key = intent.getStringExtra("search");
         pos = intent.getIntExtra("position", 0);
+        userEmail = intent.getStringExtra("userEmail");
+
 
         items = new ArrayList<>();
         filteredItems = new ArrayList<>();
+
 
         updateDisplay(search_key);
     }
@@ -129,11 +134,23 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                             notification.put("sellerEmail", selectedItem.getSellerEmail());
                             notifications.document(Long.toString(selectedItem.getTime_added_millis())).set(notification);
 
-                            ArrayList<String> buyers = selectedItem.getBuyerEmails();
-                            buyers.add(userEmail);
-                            BrowseActivity.db.collection("items").document(Long.toString(selectedItem.getTime_added_millis())).update("buyerEmails",buyers);
+                            BrowseActivity.db.collection("items").document(Long.toString(selectedItem.getTime_added_millis())).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        buyers = (ArrayList<String>) document.get("buyerEmails");
+                                        buyers.add(userEmail);
 
-                            v.setClickable(false);
+                                        BrowseActivity.db.collection("items").document(Long.toString(selectedItem.getTime_added_millis())).update("buyerEmails",buyers);
+
+                                        v.setClickable(false);
+                                    }
+                                }
+                            });
+                            //buyers = selectedItem.getBuyerEmails();
+
+
                         }
                     });
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",

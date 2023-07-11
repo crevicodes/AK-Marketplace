@@ -60,6 +60,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
     ListView lv_items;
     private String search_key;
     ImageView img_itemImage;
+    String targetEmail;
 
 
     @Override
@@ -72,8 +73,11 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         if (user != null) {
             // Name, email address etc
             String name = user.getDisplayName();
+            targetEmail = user.getEmail();
             //tv_welcometitle.setText("Welcome, " + name);
         }
+
+
 
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -123,8 +127,14 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
 
         search_key = "";
 
-        updateAndDisplay(search_key);
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateAndDisplay(search_key);
     }
 
     @Override
@@ -278,6 +288,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         Intent itemIntent = new Intent(getApplicationContext(), ItemViewActivity.class);
         itemIntent.putExtra("position", position);
         itemIntent.putExtra("search", search_key);
+        itemIntent.putExtra("userEmail", targetEmail);
         startActivity(itemIntent);
     }
 
