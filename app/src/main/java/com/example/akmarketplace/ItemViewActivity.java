@@ -1,18 +1,28 @@
 package com.example.akmarketplace;
 
+import static java.lang.System.currentTimeMillis;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -21,8 +31,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map;
 
-public class ItemViewActivity extends AppCompatActivity {
+public class ItemViewActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ArrayList<Item> items;
     private ArrayList<Item> filteredItems;
@@ -30,13 +41,17 @@ public class ItemViewActivity extends AppCompatActivity {
     private int pos;
     private Item selectedItem;
 
+    String userEmail;
+
     ImageView img_itemView_display;
     TextView tv_itemView_title, tv_itemView_desc, tv_itemView_price, tv_itemView_sellerName, tv_itemView_sellerPhone;
-
+    Button btn_itemView_buy, btn_itemView_back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_view);
+
+        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         img_itemView_display = findViewById(R.id.img_itemView_display);
         tv_itemView_title = findViewById(R.id.tv_itemView_title);
@@ -44,7 +59,11 @@ public class ItemViewActivity extends AppCompatActivity {
         tv_itemView_price = findViewById(R.id.tv_itemView_price);
         tv_itemView_sellerName = findViewById(R.id.tv_itemView_sellerName);
         tv_itemView_sellerPhone = findViewById(R.id.tv_itemView_sellerPhone);
+        btn_itemView_buy = findViewById(R.id.btn_itemView_buy);
+        btn_itemView_back = findViewById(R.id.btn_itemView_back);
 
+        btn_itemView_back.setOnClickListener(this);
+        btn_itemView_buy.setOnClickListener(this);
 
         Intent intent = getIntent();
         search_key = intent.getStringExtra("search");
@@ -91,4 +110,39 @@ public class ItemViewActivity extends AppCompatActivity {
         });
 
 }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_itemView_back) {
+            finish();
+        }
+        else if (v.getId() == R.id.btn_itemView_buy) {
+            AlertDialog alertDialog = new AlertDialog.Builder(ItemViewActivity.this).create();
+            alertDialog.setTitle("Notify Seller");
+            alertDialog.setMessage("This will notify the seller that you are interested in buying this item.");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Notify",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            CollectionReference notifications = BrowseActivity.db.collection("notifications");
+                            Map<String, Object> notification = new HashMap<>();
+                            notification.put("buyerEmail", userEmail); //data type = long
+                            notification.put("sellerEmail", selectedItem.getSellerEmail());
+                            notifications.document(Long.toString(selectedItem.getTime_added_millis())).set(notification);
+
+                            ArrayList<String> buyers = selectedItem.getBuyerEmails();
+                            buyers.add(userEmail);
+                            BrowseActivity.db.collection("items").document(Long.toString(selectedItem.getTime_added_millis())).update("buyerEmails",buyers);
+
+                            v.setClickable(false);
+                        }
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }
+    }
 }
