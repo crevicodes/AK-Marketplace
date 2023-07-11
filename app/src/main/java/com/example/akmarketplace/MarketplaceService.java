@@ -98,6 +98,7 @@ public class MarketplaceService extends Service {
         manager.createNotificationChannel(notificationChannel);
 
 
+
         // create the notification and set its data
         Notification notification = new NotificationCompat
                 .Builder(this, "Channel_ID")
