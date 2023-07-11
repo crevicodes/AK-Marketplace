@@ -176,45 +176,76 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
             }
         } else if (v.getId() == R.id.btn_ConfirmEdit) {
             if (verifyFields()) {
-                BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("title", et_Title.getText().toString());
-                BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("description", et_Description.getText().toString());
-                BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("price", Double.parseDouble(et_Price.getText().toString()));
-                //BrowseActivity.db.document(Long.toString(currentItem.getTime_added_millis())).update("image", imageUri.toString());
-                BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("locationLat", loc_meetupLocation.latitude);
-                BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("locationLng", loc_meetupLocation.longitude);
-                StorageReference storeRef = BrowseActivity.storage.getReference().child("items/" + et_Title.getText().toString() + (et_Description.getText().toString().length() > 7 ? et_Description.getText().toString().substring(0, 7) : et_Description.getText().toString()) + ".jpg");
-                UploadTask uploadTask = storeRef.putFile(imageUri);
+                AlertDialog alertDialog = new AlertDialog.Builder(EditItemActivity.this).create();
+                alertDialog.setTitle("Confirm Edit");
+                alertDialog.setMessage("Would you like to confirm changes to this item?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Confirm",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("title", et_Title.getText().toString());
+                                BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("description", et_Description.getText().toString());
+                                BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("price", Double.parseDouble(et_Price.getText().toString()));
+                                //BrowseActivity.db.document(Long.toString(currentItem.getTime_added_millis())).update("image", imageUri.toString());
+                                BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("locationLat", loc_meetupLocation.latitude);
+                                BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("locationLng", loc_meetupLocation.longitude);
+                                StorageReference storeRef = BrowseActivity.storage.getReference().child("items/" + et_Title.getText().toString() + (et_Description.getText().toString().length() > 7 ? et_Description.getText().toString().substring(0, 7) : et_Description.getText().toString()) + ".jpg");
+                                UploadTask uploadTask = storeRef.putFile(imageUri);
 
-                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        storeRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("image", uri.toString());
+                                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        storeRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("image", uri.toString());
+                                                Toast.makeText(EditItemActivity.this, "Confirm Edit", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(EditItemActivity.this, EditViewListActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                        });
+                                    }
+                                });
                             }
                         });
-                    }
-                });
-                //finish();
-                Toast.makeText(this, "Confirm Edit", Toast.LENGTH_SHORT).show();
-                //Intent intent = new Intent(this, EditItemActivity.class);
-                //startActivity(intent);
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+
             }
         }else if (v.getId() == R.id.btn_DeleteItem) {
-                Log.d("Tests", "1");
+            AlertDialog alertDialog = new AlertDialog.Builder(EditItemActivity.this).create();
+            alertDialog.setTitle("Confirm Delete Item");
+            alertDialog.setMessage("Would you like to confirm editing this item?");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Delete",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis()))
+                                    .delete()
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Log.d("Tests", "2");
+                                            Toast.makeText(getApplicationContext(), "Item Deleted From List", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getApplicationContext(), EditViewListActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    });
+                        }
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
 
-                BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis()))
-                        .delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Log.d("Tests", "2");
-                                Toast.makeText(getApplicationContext(), "Item Deleted From List", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), EditViewListActivity.class);
-                                startActivity(intent);
-                            }
-                        });
 
 
         }

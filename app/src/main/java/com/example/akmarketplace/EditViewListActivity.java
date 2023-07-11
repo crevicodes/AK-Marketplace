@@ -42,6 +42,14 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
 
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        items = new ArrayList<>();
+        filteredItems = new ArrayList<>();
+        updateDisplay(targetEmail);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_view_list);
@@ -57,10 +65,10 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         targetEmail = user.getEmail();
 
-        items = new ArrayList<>();
+        /*items = new ArrayList<>();
         filteredItems = new ArrayList<>();
 
-        updateDisplay(targetEmail);
+        updateDisplay(targetEmail);*/
     }
 
     public void updateDisplay(String key) {
