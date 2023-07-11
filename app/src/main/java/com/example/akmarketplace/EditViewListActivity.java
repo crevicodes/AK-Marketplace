@@ -59,6 +59,7 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
 
         lv_items = findViewById(R.id.lv_items);
         lv_items.setOnItemClickListener(this);
+        lv_items.setOnItemLongClickListener(buyerListListener);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         targetEmail = user.getEmail();
@@ -158,4 +159,21 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
         startActivity(editItem);
         //finish();
     }
+
+    AdapterView.OnItemLongClickListener buyerListListener = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            Item i = filteredItems.get(position);
+            Intent buyerListIntent = new Intent(getApplicationContext(), BuyerListActivity.class);
+            buyerListIntent.putExtra("itemposition", position);
+            buyerListIntent.putExtra("targetemail", targetEmail);
+
+            startActivity(buyerListIntent);
+
+
+            return false;
+        }
+
+    };
+
 }
