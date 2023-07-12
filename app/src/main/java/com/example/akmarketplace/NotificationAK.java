@@ -3,7 +3,7 @@ package com.example.akmarketplace;
 public class NotificationAK {
     private String buyerEmail;
     private String sellerEmail;
-    private Long itemId;
+    private String itemId;
 
     private String buyerName;
     private String itemName;
@@ -12,7 +12,7 @@ public class NotificationAK {
 
     }
 
-    public NotificationAK(String buyerEmail, String sellerEmail, String buyerName, String itemName, Long itemId) {
+    public NotificationAK(String buyerEmail, String sellerEmail, String buyerName, String itemName, String itemId) {
         this.buyerEmail = buyerEmail;
         this.sellerEmail = sellerEmail;
         this.itemId = itemId;
@@ -36,11 +36,11 @@ public class NotificationAK {
         this.sellerEmail = sellerEmail;
     }
 
-    public Long getItemId() {
+    public String getItemId() {
         return itemId;
     }
 
-    public void setItemId(Long itemId) {
+    public void setItemId(String itemId) {
         this.itemId = itemId;
     }
 

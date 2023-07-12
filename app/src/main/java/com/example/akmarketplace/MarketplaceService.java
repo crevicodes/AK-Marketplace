@@ -125,9 +125,9 @@ public class MarketplaceService extends Service {
                             }
                             for (NotificationAK nf : filteredNotifications) {
                                 String notifText = nf.getBuyerName() + " wants to buy " + nf.getItemName() + "!!";
-                                sendNotification(notifText, nf.getItemId());
+                                sendNotification(notifText, Long.parseLong(nf.getItemId()));
 
-                                BrowseActivity.db.collection("notifications").document(Long.toString(nf.getItemId())).delete();
+                                BrowseActivity.db.collection("notifications").document(nf.getItemId()).delete();
 
                             }
                         }
@@ -157,7 +157,7 @@ public class MarketplaceService extends Service {
     {
 
         // create the intent for the notification
-        Intent notificationIntent = new Intent(this, ProfileActivity.class)
+        Intent notificationIntent = new Intent(this, EditViewListActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         // create the pending intent
