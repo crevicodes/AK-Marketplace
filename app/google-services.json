@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "966162833012",
-    "project_id": "ak-marketplace-be3c0",
-    "storage_bucket": "ak-marketplace-be3c0.appspot.com"
+    "project_number": "1023745623305",
+    "project_id": "ak-marketplace-2",
+    "storage_bucket": "ak-marketplace-2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:966162833012:android:4b0862fff7c050fb567b21",
+        "mobilesdk_app_id": "1:1023745623305:android:f3ef4942075f2161003fd8",
         "android_client_info": {
           "package_name": "com.example.akmarketplace"
         }
       },
       "oauth_client": [
         {
-          "client_id": "966162833012-3rir0tsha5eoho18hnielh63ir7oebld.apps.googleusercontent.com",
+          "client_id": "1023745623305-o4kvjbdp8b7uigpa8aej8p4nobi9lf07.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAjlbef7jKsajFCVDirUzkFBS-tBg-N28s"
+          "current_key": "AIzaSyAtzzNdZCIOLa4JDPenpgVzG_Qnxp4U3u8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "966162833012-3rir0tsha5eoho18hnielh63ir7oebld.apps.googleusercontent.com",
+              "client_id": "1023745623305-o4kvjbdp8b7uigpa8aej8p4nobi9lf07.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

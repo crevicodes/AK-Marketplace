@@ -142,8 +142,8 @@ public class MarketplaceService extends Service {
         };
 
         timer = new Timer(true);
-        int delay = 1000 * 5;//1000 * 60 * 60;      // 1 hour
-        int interval = 1000 * 5;//1000 * 60 * 60;   // 1 hour
+        int delay = 1000 * 15;//1000 * 60 * 60;      // 1 hour
+        int interval = 1000 * 15;//1000 * 60 * 60;   // 1 hour
         timer.schedule(task, delay, interval);
     }
 
