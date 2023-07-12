@@ -146,6 +146,9 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
         else if (v.getId() == R.id.btn_EnlistItem) {
             boolean checkFields = verifyFields();
             if (checkFields) {
+
+                btn_Browse2.setEnabled(false);
+
                 CollectionReference items = BrowseActivity.db.collection("items");
                 Map<String, Object> item = new HashMap<>();
                 long timeAdded = currentTimeMillis();
@@ -193,6 +196,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
                             public void onSuccess(Uri uri) {
                                 items.document(Long.toString(timeAdded)).update("image", uri.toString());
                                 Toast.makeText(getApplicationContext(),"Item Added", Toast.LENGTH_SHORT).show();
+                                btn_Browse2.setEnabled(true);
                             }
                         });
                     }

@@ -165,13 +165,13 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Log.d("CMP", "Long Clicked");
-            Item i = filteredItems.get(position);
-            Log.d("CMP", "Long Clicked2");
+            //Item i = filteredItems.get(position);
+            //Log.d("CMP", "Long Clicked2");
 
             Intent buyerListIntent = new Intent(getApplicationContext(), BuyerListActivity.class);
             buyerListIntent.putExtra("itemposition", position);
             buyerListIntent.putExtra("targetemail", targetEmail);
-            Log.d("CMP", "Long Clicked3");
+            Log.d("CMP", "Long Clicked2");
 
             startActivity(buyerListIntent);
 

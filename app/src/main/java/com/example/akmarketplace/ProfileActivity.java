@@ -34,6 +34,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 
@@ -78,14 +79,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         targetEmail = user.getEmail();
 
-        DocumentReference docRef = BrowseActivity.db.collection("users").document(targetEmail);
-
-        docRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+        Task task = BrowseActivity.db.collection("users").document(targetEmail).get();
+        Log.d("Test1", "docRef get: " + targetEmail);
+        task.addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                tv_Fullname.setText(value.getString("fullname"));
-                tv_Email.setText(value.getString("email"));
-                tv_Phone.setText(value.getString("phone"));
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot res = task.getResult();
+                tv_Fullname.setText(res.getString("fullname"));
+                tv_Email.setText(res.getString("email"));
+                tv_Phone.setText(res.getString("phone"));
                 Log.d("CMP", "Set up Profile Name");
             }
         });
@@ -137,6 +139,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 return;
                             } else {
                                 DocumentReference docRef = BrowseActivity.db.collection("users").document(targetEmail);
+
                                 docRef.update("phone", edittext.getText().toString());
                                 items = new ArrayList<>();
                                 BrowseActivity.db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

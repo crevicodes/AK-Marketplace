@@ -44,6 +44,8 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     private int pos;
     private Item selectedItem;
 
+    boolean isBuying;
+
     String userEmail;
     ArrayList<String> buyers = new ArrayList<>();
 
@@ -77,22 +79,28 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         userEmail = intent.getStringExtra("userEmail");
 
 
-        items = new ArrayList<>();
+        /*items = new ArrayList<>();
         filteredItems = new ArrayList<>();
 
 
-        updateDisplay(search_key);
+        updateDisplay(search_key);*/
 
 
     }
 
-    /*@Override
+    @Override
     protected void onResume() {
         super.onResume();
+        Log.d("Test5", "in onResume");
 
-        boolean isBuying = savedBuying.getBoolean(Long.toString(selectedItem.getTime_added_millis()), true);
-        btn_itemView_buy.setEnabled(isBuying);
-    }*/
+        items = new ArrayList<>();
+        filteredItems = new ArrayList<>();
+        updateDisplay(search_key);
+
+        Log.d("Test5", "update display called");
+
+
+    }
 
     public void updateDisplay(String key) {
         items = new ArrayList<>();
@@ -124,6 +132,13 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                     tv_itemView_sellerPhone.setText(selectedItem.getSellerPhone());
                     tv_itemView_desc.setText(selectedItem.getDescription());
 
+
+                    Log.d("Test5", "update display finished");
+
+                    isBuying = savedBuying.getBoolean(Long.toString(selectedItem.getTime_added_millis()), true);
+                    Log.d("Test5", "got shared references: " + isBuying);
+                    btn_itemView_buy.setEnabled(isBuying);
+                    Log.d("Test5", "button set");
                 }
             }
         });

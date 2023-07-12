@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +29,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,6 +47,7 @@ public class BuyerListActivity extends ListActivity {
         private Item currentItem;
         private ArrayList <Item> items;
         private ArrayList <Item> filteredItems;
+        private ArrayList<String> buyers;
 
     // called when the activity is first created
         @Override
@@ -76,37 +80,82 @@ public class BuyerListActivity extends ListActivity {
                         }
                         currentItem = filteredItems.get(itemPosition);
                         Log.d("CMP", "Got currentItem");
+
+                        BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    buyers = (ArrayList<String>) document.get("buyerEmails");
+                                    ArrayList<AccountUser> allUsers = new ArrayList<>();
+                                    ArrayList<AccountUser> filteredUsers = new ArrayList<>();
+
+                                    BrowseActivity.db.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if(task.isSuccessful()) {
+                                                for(QueryDocumentSnapshot document : task.getResult()) {
+                                                    allUsers.add(document.toObject(AccountUser.class));
+                                                }
+
+                                                ArrayList<HashMap<String, String>> data = new ArrayList<>();
+                                                for ( AccountUser u : allUsers) {
+                                                    if (buyers.contains(u.getEmail())) {
+                                                        HashMap<String, String> map = new HashMap<>();
+                                                        map.put("fullname", u.getFullname());
+                                                        map.put("phone", u.getPhone());
+
+                                                        data.add(map);
+                                                        filteredUsers.add(u);
+                                                    }
+                                                }
+
+                                                int resource = R.layout.activity_buyer_list_item;
+                                                String[] from = {"fullname","phone"};
+                                                int[] to = {R.id.tv_BuyerNameItem, R.id.tv_BuyerPhoneItem};
+
+                                                buyerAdapter = new SimpleAdapter(getApplicationContext(), data, resource, from, to);
+                                                setListAdapter(buyerAdapter);
+                                                Log.d("CMP", "Set Adapter");
+                                            }
+                                        }
+                                    });
+                            }
+                        }});
+
+
+
+
+                        /*for(String email: buyerEmails)
+                        {
+                            HashMap<String, String> map = new HashMap<>();
+                            Task tk = BrowseActivity.db.collection("users").document(email).get();
+                            tk.addOnCompleteListener(new OnCompleteListener<QueryDocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QueryDocumentSnapshot> task) {
+                                    QueryDocumentSnapshot res = task.getResult();
+                                    String fullname = res.getString("fullname");
+                                    String phone = res.getString("phone");
+                                    map.put("fullname", fullname);
+                                    map.put("phone", phone);
+                                    data.add(map);
+
+
+
+                                }
+                            });
+
+
+                        }*/
+
+
+
+
                     }
                 }
             });
-            ArrayList<String> buyerEmails = currentItem.getBuyerEmails();
 
-            ArrayList<HashMap<String, String>> data = new ArrayList<>();
 
-            for(String email: buyerEmails)
-            {
-                HashMap<String, String> map = new HashMap<>();
-                DocumentReference docRef = BrowseActivity.db.collection("users").document(email);
-
-                docRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                       String fullname = value.getString("fullname");
-                       String phone = value.getString("phone");
-                       map.put("fullname", fullname);
-                       map.put("phone", phone);
-                       data.add(map);
-                    }
-                });
-
-            }
-                       int resource = R.layout.activity_buyer_list_item;
-                        String[] from = {"fullname","phone"};
-                        int[] to = {R.id.tv_BuyerNameItem, R.id.tv_BuyerPhoneItem};
-
-                        buyerAdapter = new SimpleAdapter(getApplicationContext(), data, resource, from, to);
-                        buyerListView.setAdapter(buyerAdapter);
-            Log.d("CMP", "Set Adapter");
 
 
         }
