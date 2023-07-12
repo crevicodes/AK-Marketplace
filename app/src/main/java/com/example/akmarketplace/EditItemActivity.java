@@ -47,7 +47,7 @@ import java.util.HashMap;
 
 public class EditItemActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btn_Browse2, btn_Sell2, btn_Profile2, btn_Location, btn_Image, btn_DeleteItem, btn_ConfirmEdit;
+    private Button btn_Location, btn_Image, btn_DeleteItem, btn_ConfirmEdit, btn_SetSold;
     private ImageView img_itemDisplay, img_itemImage, img_Default;
     private TextView tv_Title;
     private LatLng loc_meetupLocation;
@@ -89,6 +89,7 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
         img_Default = new ImageView(getApplicationContext());
         img_Default.setImageDrawable(img_itemDisplay.getDrawable());
         btn_ConfirmEdit = findViewById(R.id.btn_ConfirmEdit);
+        btn_SetSold = findViewById(R.id.btn_SetSold);
         //img_itemImage = null;
         loc_meetupLocation = null;
         et_Title = findViewById(R.id.et_Title);
@@ -101,7 +102,7 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
         btn_Location.setOnClickListener(this);
         btn_DeleteItem.setOnClickListener(this);
         btn_ConfirmEdit.setOnClickListener(this);
-
+        btn_SetSold.setOnClickListener(this);
         toolbar2 = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar2);
 
@@ -245,9 +246,11 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
                         }
                     });
             alertDialog.show();
-
-
-
+        }
+        else if(v.getId() == R.id.btn_SetSold)
+        {
+            BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("sold", "true");
+            finish();
         }
     }
 
