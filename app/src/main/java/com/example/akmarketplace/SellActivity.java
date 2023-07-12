@@ -275,6 +275,9 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
             loc_meetupLocation = new LatLng(locLat,locLng);
             loc2 = new LatLng(locLat, locLng);
         }
+        else if (requestCode==RESULT_CANCELED) {
+            
+        }
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {

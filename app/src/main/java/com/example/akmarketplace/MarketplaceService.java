@@ -173,7 +173,7 @@ public class MarketplaceService extends Service {
 
 
         NotificationChannel notificationChannel =
-                new NotificationChannel("Channel_ID", "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
+                new NotificationChannel("Channel_ID", "My Notifications", NotificationManager.IMPORTANCE_HIGH);
 
         NotificationManager manager = (NotificationManager) getSystemService(this.NOTIFICATION_SERVICE);
         manager.createNotificationChannel(notificationChannel);
