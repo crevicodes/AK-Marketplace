@@ -168,7 +168,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                             notification.put("sellerEmail", selectedItem.getSellerEmail());
                             notification.put("buyerName", userName);
                             notification.put("itemName", selectedItem.getTitle());
-                            notification.put("itemId", selectedItem.getTime_added_millis());
+                            notification.put("itemId", Long.toString(selectedItem.getTime_added_millis()));
                             notifications.document(Long.toString(selectedItem.getTime_added_millis())).set(notification);
 
                             BrowseActivity.db.collection("items").document(Long.toString(selectedItem.getTime_added_millis())).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
