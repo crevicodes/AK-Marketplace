@@ -52,6 +52,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
     private String targetEmail, targetFullname, targetPhone;
     private EditText et_Title, et_Description, et_Price;
     private Uri imageUri;
+    private LatLng loc2;
 
 
 
@@ -71,6 +72,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
         img_Default.setImageDrawable(img_itemDisplay.getDrawable());
         img_itemImage = null;
         loc_meetupLocation = null;
+        loc2 = new LatLng(25.310338125326922, 55.491244819864185);
         et_Title = findViewById(R.id.et_Title);
         et_Description = findViewById(R.id.et_Description);
         et_Price = findViewById(R.id.et_Price);
@@ -115,6 +117,8 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (v.getId() == R.id.btn_Location) {
             Intent mapsIntent = new Intent(getApplicationContext(), SetLocActivity.class);
+            mapsIntent.putExtra("locationLat", loc2.latitude);
+            mapsIntent.putExtra("locationLng", loc2.longitude);
             startActivityForResult(mapsIntent,201);
 
         }
@@ -269,6 +273,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
             Double locLat = data.getDoubleExtra("replyLat",0);
             Double locLng = data.getDoubleExtra("replyLng",0);
             loc_meetupLocation = new LatLng(locLat,locLng);
+            loc2 = new LatLng(locLat, locLng);
         }
     }
 
@@ -299,6 +304,8 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
         } else if (item.getItemId() == R.id.menu_LogOut) {
             Intent logoutintent = new Intent(this, LoginActivity.class);
             startActivity(logoutintent);
+            Intent foregroundService = new Intent(getApplicationContext(), MarketplaceService.class);
+            stopService(foregroundService);
             return true;
         } else if (item.getItemId() == R.id.menu_QuitApp) {
             this.finishAffinity();

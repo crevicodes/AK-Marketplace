@@ -210,6 +210,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         } else if (item.getItemId() == R.id.menu_LogOut) {
             Intent logoutintent = new Intent(this, LoginActivity.class);
             startActivity(logoutintent);
+            Intent foregroundService = new Intent(getApplicationContext(), MarketplaceService.class);
+            stopService(foregroundService);
             return true;
         } else if (item.getItemId() == R.id.menu_QuitApp) {
             this.finishAffinity();
