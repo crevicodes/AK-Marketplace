@@ -33,19 +33,13 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-
-
-    private Button btn_createacc, btn_login;//, btn_forgotPass;
+    private Button btn_createacc, btn_login;
     private TextView tv_forgotPass;
     private CompoundButton cb_RememberMe;
     private EditText et_email, et_password;
 
     private FirebaseAuth mAuth;
     private SharedPreferences savedUserEmail;
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +49,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         btn_createacc = findViewById(R.id.btn_createacc);
         btn_login = findViewById(R.id.btn_login);
-//      btn_forgotPass = findViewById(R.id.btn_forgotPass);
         et_email = findViewById(R.id.et_email);
         et_password = findViewById(R.id.et_password);
         cb_RememberMe = findViewById(R.id.cb_RememberMe);
@@ -78,8 +71,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }
 
-        /*if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS)
-                == PackageManager.PERMISSION_DENIED) finish();*/
     }
 
     @Override
@@ -98,7 +89,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
                                 SharedPreferences.Editor editor = savedUserEmail.edit();
 
@@ -120,7 +110,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 startActivity(i);
 
                             } else {
-                                // If sign in fails, display a message to the user.
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
                                 Toast.makeText(getApplicationContext(), "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
@@ -170,6 +159,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             forgot.show();
         }
     }
-
 
 }

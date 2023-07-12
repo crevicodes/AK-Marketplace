@@ -92,14 +92,11 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
         img_Default.setImageDrawable(img_itemDisplay.getDrawable());
         btn_ConfirmEdit = findViewById(R.id.btn_ConfirmEdit);
         btn_SetSold = findViewById(R.id.btn_SetSold);
-        //img_itemImage = null;
         loc_meetupLocation = null;
         et_Title = findViewById(R.id.et_Title);
         et_Description = findViewById(R.id.et_Description);
         et_Price = findViewById(R.id.et_Price);
 
-        //btn_Browse2.setOnClickListener(this);
-        //btn_Profile2.setOnClickListener(this);
         btn_Image.setOnClickListener(this);
         btn_Location.setOnClickListener(this);
         btn_DeleteItem.setOnClickListener(this);
@@ -117,9 +114,6 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
         filteredItems = new ArrayList<>();
 
         updateDisplay(targetEmail);
-
-
-        //img_itemDisplay.setImageURI(Uri.parse(intent.getStringExtra("imageUri")));
     }
 
     public void updateDisplay(String key)
@@ -188,7 +182,6 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
                                 BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("title", et_Title.getText().toString());
                                 BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("description", et_Description.getText().toString());
                                 BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("price", Double.parseDouble(et_Price.getText().toString()));
-                                //BrowseActivity.db.document(Long.toString(currentItem.getTime_added_millis())).update("image", imageUri.toString());
                                 BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("locationLat", loc_meetupLocation.latitude);
                                 BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("locationLng", loc_meetupLocation.longitude);
                                 StorageReference storeRef = BrowseActivity.storage.getReference().child("items/" + et_Title.getText().toString() + (et_Description.getText().toString().length() > 7 ? et_Description.getText().toString().substring(0, 7) : et_Description.getText().toString()) + ".jpg");

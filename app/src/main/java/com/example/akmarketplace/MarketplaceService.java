@@ -32,14 +32,11 @@ public class MarketplaceService extends Service {
     private ArrayList<NotificationAK> notifications;
     private ArrayList<NotificationAK> filteredNotifications;
     private String targetEmail;
-    //HashMap<String, NotificationAK> notifMap;
-
 
     @Override
     public void onCreate() {
         app = (MarketplaceApp) getApplication();
         targetEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        //notifMap = new HashMap<>();
         notifications = new ArrayList<>();
         filteredNotifications = new ArrayList<>();
     }
@@ -68,9 +65,6 @@ public class MarketplaceService extends Service {
 
         startForeground(1, notification);
 
-        //TS: when the system attemps to re-create the service
-        //onStartCommand will be called again (not onCreate)
-        //So call the startTimer() here
         startTimer();
 
         return START_STICKY;
@@ -85,7 +79,6 @@ public class MarketplaceService extends Service {
         NotificationManager manager = getSystemService(NotificationManager.class);
         manager.createNotificationChannel(serviceChannel);
     }
-
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -134,16 +127,12 @@ public class MarketplaceService extends Service {
                     }
                 });
 
-                // display notification
-                //sendNotification("Select to view updated feed.");
-
-
             }
         };
 
         timer = new Timer(true);
-        int delay = 1000 * 15;//1000 * 60 * 60;      // 1 hour
-        int interval = 1000 * 15;//1000 * 60 * 60;   // 1 hour
+        int delay = 1000 * 15;
+        int interval = 1000 * 15;
         timer.schedule(task, delay, interval);
     }
 
@@ -155,17 +144,13 @@ public class MarketplaceService extends Service {
 
     private void sendNotification(String text, long id )
     {
-
-        // create the intent for the notification
         Intent notificationIntent = new Intent(this, EditViewListActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        // create the pending intent
         int flags = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
         PendingIntent pendingIntent =
                 PendingIntent.getActivity(this, 0, notificationIntent, flags);
 
-        // create the variables for the notification
         int icon = R.drawable.ak_marketplace_icon_foreground;
         CharSequence tickerText = "Buyer!";
         CharSequence contentTitle = getText(R.string.app_name);
@@ -178,9 +163,6 @@ public class MarketplaceService extends Service {
         NotificationManager manager = (NotificationManager) getSystemService(this.NOTIFICATION_SERVICE);
         manager.createNotificationChannel(notificationChannel);
 
-
-
-        // create the notification and set its data
         Notification notification = new NotificationCompat
                 .Builder(this, "Channel_ID")
                 .setSmallIcon(icon)

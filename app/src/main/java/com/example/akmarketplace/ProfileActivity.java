@@ -40,7 +40,6 @@ import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
-    //private TextView tv_welcometitle;
     private Button btn_Browse3;
     private Button btn_Sell3;
     private Button btn_Profile3;
@@ -55,16 +54,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private ArrayList<Item> items;
 
-
-    //FirebaseFirestore fStore;
-    CollectionReference users;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
-        //fStore = FirebaseFirestore.getInstance();
 
         tv_Fullname = findViewById(R.id.tv_Fullname);
         tv_Email = findViewById(R.id.tv_Email);
@@ -93,7 +86,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-
         btn_changePhone.setOnClickListener(this);
         btn_Browse3.setOnClickListener(this);
         btn_Sell3.setOnClickListener(this);
@@ -111,7 +103,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
     }
-
 
     @Override
     public void onClick(View v) {
@@ -187,9 +178,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
 
     }
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

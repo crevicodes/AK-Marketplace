@@ -31,14 +31,9 @@ public class SetLocActivity extends FragmentActivity implements OnMapReadyCallba
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-
     private MarkerOptions meetupLocation;
     private LatLng meetupCoordinates;
 
-
-
-
-    private RunTrackerDB runTrackerDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,36 +41,18 @@ public class SetLocActivity extends FragmentActivity implements OnMapReadyCallba
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        runTrackerDB = new RunTrackerDB(this);
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        //mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
-        //mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
         Intent mapsIntent = getIntent();
         double locationLat = mapsIntent.getDoubleExtra("locationLat", 25.310338125326922);
@@ -86,15 +63,11 @@ public class SetLocActivity extends FragmentActivity implements OnMapReadyCallba
         meetupLocation = new MarkerOptions().position(meetupCoordinates).title("AUS");
         mMap.addMarker(meetupLocation);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(meetupCoordinates, 15.0f));
-        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(locAUS, 12.0f));
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(@NonNull LatLng latLng)
             {
-
-                //your code goes here
-
                 mMap.clear();
 
                 Location loc = new Location("Google maps");
@@ -102,10 +75,6 @@ public class SetLocActivity extends FragmentActivity implements OnMapReadyCallba
                 loc.setLongitude(latLng.longitude);
                 loc.setLatitude(latLng.latitude);
                 loc.setTime(System.currentTimeMillis());
-
-                //make db a member variable and in onCreate db = new RunTrackerDB(this);
-
-                runTrackerDB.insertLocation(loc, "Meetup Location");
 
                 meetupCoordinates = latLng;
                 meetupLocation = new MarkerOptions().position(meetupCoordinates).title("Meetup Location");
@@ -134,14 +103,8 @@ public class SetLocActivity extends FragmentActivity implements OnMapReadyCallba
                         });
                 alertDialog.show();
 
-
-
             }
         });
-
-
-
-
 
     }
     @SuppressLint("MissingPermission")
@@ -152,13 +115,10 @@ public class SetLocActivity extends FragmentActivity implements OnMapReadyCallba
             if (grantResults.length == 1
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
-                //now we have the user permission, so let us start all over again
                 onMapReady(mMap);
             }
             else
-                finish(); //no point continuing with the app
+                finish();
         }
     }
-
-
 }

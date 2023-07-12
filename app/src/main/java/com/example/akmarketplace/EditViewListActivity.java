@@ -65,10 +65,6 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         targetEmail = user.getEmail();
 
-        /*items = new ArrayList<>();
-        filteredItems = new ArrayList<>();
-
-        updateDisplay(targetEmail);*/
     }
 
     public void updateAndDisplay(String key) {
@@ -104,8 +100,6 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
                             HashMap<String, String> map = new HashMap<>();
                             map.put("title", i.getTitle());
 
-                            //StorageReference storeRef = BrowseActivity.storage.getReference().child(i.getTitle()+(i.getDescription().length()>7 ? i.getDescription().substring(0,7) : i.getDescription()));
-
                             map.put("image", i.getImage());
 
                             map.put("seller", i.getSellerName());
@@ -133,52 +127,34 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
                         }
                     };
                     lv_items.setAdapter(adapter);
-
-
                 }
             }
         });
-
-
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //Item item = filteredItems.get(position);
-        //Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
-        //updateDisplay(targetEmail);
+
         Intent editItem = new Intent(this, EditItemActivity.class);
         editItem.putExtra("itemposition", position);
         editItem.putExtra("targetemail", targetEmail);
 
-        /*editItem.putExtra("title", item.getTitle());
-        editItem.putExtra("description", item.getDescription());
-        editItem.putExtra("price", item.getPrice());
-        editItem.putExtra("locationLat", item.getLocationLat());
-        editItem.putExtra("locationLng", item.getLocationLng());
-        editItem.putExtra("imageUri", item.getImage());*/
         startActivity(editItem);
-        //finish();
     }
 
     AdapterView.OnItemLongClickListener buyerListListener = new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Log.d("CMP", "Long Clicked");
-            //Item i = filteredItems.get(position);
-            //Log.d("CMP", "Long Clicked2");
 
             Intent buyerListIntent = new Intent(getApplicationContext(), BuyerListActivity.class);
             buyerListIntent.putExtra("itemposition", position);
             buyerListIntent.putExtra("targetemail", targetEmail);
             Log.d("CMP", "Long Clicked2");
-
             startActivity(buyerListIntent);
-
 
             return false;
         }
 
     };
-
 }

@@ -266,7 +266,6 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
             Bitmap pic = data.getParcelableExtra("data");
             imageUri = getImageUri(getApplicationContext(), pic);
             img_itemDisplay.setImageURI(imageUri);
-            //imageUri = picture;
             img_itemImage = img_itemDisplay;
             Toast.makeText(getApplicationContext(),imageUri.toString(),Toast.LENGTH_SHORT).show();
         }
@@ -284,7 +283,6 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -315,7 +313,5 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
 
     }
-
-
 
 }

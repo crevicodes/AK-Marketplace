@@ -91,8 +91,6 @@ public class SoldActivity extends AppCompatActivity {
                             HashMap<String, String> map = new HashMap<>();
                             map.put("title", i.getTitle());
 
-                            //StorageReference storeRef = BrowseActivity.storage.getReference().child(i.getTitle()+(i.getDescription().length()>7 ? i.getDescription().substring(0,7) : i.getDescription()));
-
                             map.put("image", i.getImage());
 
                             map.put("seller", i.getSellerName());
@@ -121,11 +119,9 @@ public class SoldActivity extends AppCompatActivity {
                     };
                     lv_items.setAdapter(adapter);
 
-
                 }
             }
         });
-
 
     }
 }

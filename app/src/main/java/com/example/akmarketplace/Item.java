@@ -11,10 +11,8 @@ public class Item {
     private String sold;
     private String sellerName;
     private String sellerEmail;
-    //private String buyerName;
     private ArrayList<String> buyerEmails;
     private String sellerPhone;
-    //private String buyerPhone;
     private double locationLat;
     private double locationLng;
     private double price;
@@ -35,17 +33,7 @@ public class Item {
         this.buyerEmails = buyerEmails;
         this.sold = sold;
 
-        //this.buyerName = "";
-        //this.buyerPhone = "";
-
     }
-
-    //public int compare(Item rhs) {
-        //if (this.getTime_added_millis() > rhs.getTime_added_millis()) return ()
-        //else if (this.getTime_added_millis() < rhs.getTime_added_millis()) return
-        //else return 0;
-        //return this.getTime_added_millis().compareTo(rhs.getTime_added_millis());
-    //}
 
     public Item() {
 
@@ -108,22 +96,6 @@ public class Item {
         this.sellerEmail = sellerEmail;
     }
 
-    /*public String getBuyerName() {
-        return buyerName;
-    }
-
-    public void setBuyerName(String buyerName) {
-        this.buyerName = buyerName;
-    }*/
-
-    /*public String getBuyerEmail() {
-        return buyerEmail;
-    }
-
-    public void setBuyerEmail(String buyerEmail) {
-        this.buyerEmail = buyerEmail;
-    }*/
-
     public String getSellerPhone() {
         return sellerPhone;
     }
@@ -131,17 +103,7 @@ public class Item {
     public void setSellerPhone(String sellerPhone) {
         this.sellerPhone = sellerPhone;
     }
-
-    /*public String getBuyerPhone() {
-        return buyerPhone;
-    }
-
-    public void setBuyerPhone(String buyerPhone) {
-        this.buyerPhone = buyerPhone;
-    }*/
-
-
-
+    
     public double getLocationLat() {
         return locationLat;
     }

@@ -40,10 +40,7 @@ public class BuyerListActivity extends ListActivity {
 
         private String targetEmail;
         private int itemPosition;
-        private ListView buyerListView; // the ListActivity's ListView
-        private SimpleAdapter buyerAdapter; // adapter for ListView
-        //TS: Adapter that exposes data from a Cursor to a ListView widget.
-        //The Cursor must include a column named "_id" or this class will not work
+        private SimpleAdapter buyerAdapter;
         private Item currentItem;
         private ArrayList <Item> items;
         private ArrayList <Item> filteredItems;
@@ -52,10 +49,8 @@ public class BuyerListActivity extends ListActivity {
     // called when the activity is first created
         @Override
         public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState); // call super's onCreate
+            super.onCreate(savedInstanceState);
             Log.d("CMP", "Entered Buyer List");
-            //TS: 1. create list view and set it event handler
-            buyerListView = findViewById(R.id.buyerListView);
             items = new ArrayList<>();
             filteredItems = new ArrayList<>();
             Intent intent = getIntent();
@@ -122,21 +117,8 @@ public class BuyerListActivity extends ListActivity {
                                     });
                             }
                         }});
-
-
-
-
-
-
-
-
-
                     }
                 }
             });
-
-
-
-
         }
 }

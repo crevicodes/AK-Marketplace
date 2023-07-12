@@ -65,8 +65,6 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
 
         savedBuying = getSharedPreferences("savedBuying", MODE_PRIVATE);
 
-        //userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-
         img_itemView_display = findViewById(R.id.img_itemView_display);
         tv_itemView_title = findViewById(R.id.tv_itemView_title);
         tv_itemView_desc = findViewById(R.id.tv_itemView_desc);
@@ -87,14 +85,6 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         pos = intent.getIntExtra("position", 0);
         userEmail = intent.getStringExtra("userEmail");
         userName = intent.getStringExtra("userName");
-
-
-        /*items = new ArrayList<>();
-        filteredItems = new ArrayList<>();
-
-
-        updateDisplay(search_key);*/
-
 
     }
 
@@ -213,10 +203,6 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                                             }
                                         });
                                     }
-
-
-                                    //buyers = selectedItem.getBuyerEmails();
-
 
                                 }
                             });

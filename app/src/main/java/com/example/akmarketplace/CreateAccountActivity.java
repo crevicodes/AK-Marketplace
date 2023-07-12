@@ -75,26 +75,11 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
                                     Toast.makeText(getApplicationContext(), "Create User With Email : " +
                                             "success\nPlease login",Toast.LENGTH_SHORT).show();
                                             FirebaseUser user = mAuth.getCurrentUser();
                                             user.updateEmail(et_email2.getText().toString());
 
-
-                                            //user.updatePhoneNumber( );
-                                    /*UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                            .setDisplayName(et_firstname.getText().toString() + " " + et_lastname.getText().toString())
-                                            .build();
-                                    user.updateProfile(profileUpdates)
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Log.d(TAG, "User profile updated.");
-                                                    }
-                                                }
-                                            });*/
                                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                             Map<String, Object> userData = new HashMap<>();
                                             userData.put("fullname", et_firstname.getText().toString() + " " + et_lastname.getText().toString());
@@ -103,7 +88,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                                             users.document(et_email2.getText().toString()).set(userData);
                                             startActivity(intent);
                                 } else {
-                                    // If sign in fails, display a message to the user.
                                     Log.d(TAG, "createUserWithEmail:failure: " +
                                                     task.getException().toString());
                                     Toast.makeText(getApplicationContext(), "Authentication failed.",

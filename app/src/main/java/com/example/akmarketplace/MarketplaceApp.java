@@ -12,11 +12,5 @@ public class MarketplaceApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-
-
-        /*Intent serviceIntent = new Intent(this, MarketplaceService.class);
-        ContextCompat.startForegroundService(this, serviceIntent);*/
-
     }
 }
