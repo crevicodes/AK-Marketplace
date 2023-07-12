@@ -15,8 +15,8 @@ public class MarketplaceApp extends Application {
 
 
 
-        Intent serviceIntent = new Intent(this, MarketplaceService.class);
-        ContextCompat.startForegroundService(this, serviceIntent);
+        /*Intent serviceIntent = new Intent(this, MarketplaceService.class);
+        ContextCompat.startForegroundService(this, serviceIntent);*/
 
     }
 }

@@ -8,9 +8,19 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.SimpleAdapter;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,15 +29,30 @@ public class MarketplaceService extends Service {
     private MarketplaceApp app;
     private Timer timer;
     private static final String CHANNEL_ID = "ForeGroundServiceChannel";
+    private ArrayList<NotificationAK> notifications;
+    private ArrayList<NotificationAK> filteredNotifications;
+    private String targetEmail;
+    //HashMap<String, NotificationAK> notifMap;
+
 
     @Override
     public void onCreate() {
         app = (MarketplaceApp) getApplication();
+        targetEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        //notifMap = new HashMap<>();
+        notifications = new ArrayList<>();
+        filteredNotifications = new ArrayList<>();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("Test", "FOREGROUND Service started");
+
+        targetEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        //notifMap = new HashMap<>();
+        notifications = new ArrayList<>();
+        filteredNotifications = new ArrayList<>();
+
         createNotificationChannel();
         Intent notificationIntent = new Intent(this, BrowseActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
@@ -81,8 +106,33 @@ public class MarketplaceService extends Service {
             @Override
             public void run() {
                 Log.d("Test", "Timer task started");
+                notifications = new ArrayList<>();
+                filteredNotifications = new ArrayList<>();
 
+                BrowseActivity.db.collection("notifications").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                NotificationAK notif = document.toObject(NotificationAK.class);
+                                notifications.add(notif);
 
+                            }
+                            for (NotificationAK n : notifications) {
+                                if (n.getSellerEmail().equals(targetEmail)) {
+                                    filteredNotifications.add(n);
+                                }
+                            }
+                            for (NotificationAK nf : filteredNotifications) {
+                                String notifText = nf.getBuyerName() + " wants to buy " + nf.getItemName() + "!!";
+                                sendNotification(notifText, nf.getItemId());
+
+                                BrowseActivity.db.collection("notifications").document(Long.toString(nf.getItemId())).delete();
+
+                            }
+                        }
+                    }
+                });
 
                 // display notification
                 //sendNotification("Select to view updated feed.");
@@ -92,8 +142,8 @@ public class MarketplaceService extends Service {
         };
 
         timer = new Timer(true);
-        int delay = 1000;//1000 * 60 * 60;      // 1 hour
-        int interval = 1000;//1000 * 60 * 60;   // 1 hour
+        int delay = 1000 * 5;//1000 * 60 * 60;      // 1 hour
+        int interval = 1000 * 5;//1000 * 60 * 60;   // 1 hour
         timer.schedule(task, delay, interval);
     }
 
@@ -103,11 +153,11 @@ public class MarketplaceService extends Service {
         }
     }
 
-    private void sendNotification(String text )
+    private void sendNotification(String text, long id )
     {
 
         // create the intent for the notification
-        Intent notificationIntent = new Intent(this, BrowseActivity.class)
+        Intent notificationIntent = new Intent(this, ProfileActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         // create the pending intent
@@ -142,7 +192,7 @@ public class MarketplaceService extends Service {
                 .setChannelId("Channel_ID")
                 .build();
 
-        final int NOTIFICATION_ID = 1;
+        final int NOTIFICATION_ID = (int) id;
         manager.notify(NOTIFICATION_ID, notification);
     }
 

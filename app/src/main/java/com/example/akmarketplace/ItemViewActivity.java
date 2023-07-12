@@ -47,6 +47,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     boolean isBuying;
 
     String userEmail;
+    String userName;
     ArrayList<String> buyers = new ArrayList<>();
 
     ImageView img_itemView_display;
@@ -77,6 +78,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         search_key = intent.getStringExtra("search");
         pos = intent.getIntExtra("position", 0);
         userEmail = intent.getStringExtra("userEmail");
+        userName = intent.getStringExtra("userName");
 
 
         /*items = new ArrayList<>();
@@ -164,6 +166,8 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                             Map<String, Object> notification = new HashMap<>();
                             notification.put("buyerEmail", userEmail); //data type = long
                             notification.put("sellerEmail", selectedItem.getSellerEmail());
+                            notification.put("buyerName", userName);
+                            notification.put("itemName", selectedItem.getTitle());
                             notifications.document(Long.toString(selectedItem.getTime_added_millis())).set(notification);
 
                             BrowseActivity.db.collection("items").document(Long.toString(selectedItem.getTime_added_millis())).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

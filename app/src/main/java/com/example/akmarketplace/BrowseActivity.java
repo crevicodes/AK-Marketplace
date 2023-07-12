@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -61,6 +62,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
     private String search_key;
     ImageView img_itemImage;
     String targetEmail;
+    String targetName;
 
 
     @Override
@@ -70,14 +72,6 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         //tv_welcometitle= findViewById(R.id.tv_welcometitle);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            // Name, email address etc
-            String name = user.getDisplayName();
-            targetEmail = user.getEmail();
-            //tv_welcometitle.setText("Welcome, " + name);
-        }
-
-
 
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -107,12 +101,10 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         et_Search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -126,8 +118,20 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         search_key = "";
-
-
+        if (user != null) {
+            // Name, email address etc
+            String name = user.getDisplayName();
+            targetEmail = user.getEmail();
+            Task<DocumentSnapshot> tk = db.collection("users").document(targetEmail).get();
+            tk.addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    DocumentSnapshot res = task.getResult();
+                    targetName = res.getString("fullname");
+                }
+            });
+            //tv_welcometitle.setText("Welcome, " + name);
+        }
 
     }
 
@@ -289,6 +293,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         itemIntent.putExtra("position", position);
         itemIntent.putExtra("search", search_key);
         itemIntent.putExtra("userEmail", targetEmail);
+        itemIntent.putExtra("userName", targetName);
         startActivity(itemIntent);
     }
 
