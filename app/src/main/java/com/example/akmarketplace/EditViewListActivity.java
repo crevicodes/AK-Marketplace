@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -52,7 +53,7 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_view_list);
 
-
+        Log.d("CMP", "Entered EditViewListActivity");
 
         toolbar1 = findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar1);
@@ -163,10 +164,14 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
     AdapterView.OnItemLongClickListener buyerListListener = new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            Log.d("CMP", "Long Clicked");
             Item i = filteredItems.get(position);
+            Log.d("CMP", "Long Clicked2");
+
             Intent buyerListIntent = new Intent(getApplicationContext(), BuyerListActivity.class);
             buyerListIntent.putExtra("itemposition", position);
             buyerListIntent.putExtra("targetemail", targetEmail);
+            Log.d("CMP", "Long Clicked3");
 
             startActivity(buyerListIntent);
 

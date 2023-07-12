@@ -38,7 +38,7 @@ public class BuyerListActivity extends ListActivity {
         private String targetEmail;
         private int itemPosition;
         private ListView buyerListView; // the ListActivity's ListView
-        private CursorAdapter buyerAdapter; // adapter for ListView
+        private SimpleAdapter buyerAdapter; // adapter for ListView
         //TS: Adapter that exposes data from a Cursor to a ListView widget.
         //The Cursor must include a column named "_id" or this class will not work
         private Item currentItem;
@@ -49,8 +49,9 @@ public class BuyerListActivity extends ListActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState); // call super's onCreate
-
+            Log.d("CMP", "Entered Buyer List");
             //TS: 1. create list view and set it event handler
+            buyerListView = findViewById(R.id.buyerListView);
             items = new ArrayList<>();
             filteredItems = new ArrayList<>();
             Intent intent = getIntent();
@@ -94,16 +95,17 @@ public class BuyerListActivity extends ListActivity {
                        String phone = value.getString("phone");
                        map.put("fullname", fullname);
                        map.put("phone", phone);
+                       data.add(map);
                     }
                 });
-                data.add(map);
+
             }
                        int resource = R.layout.activity_buyer_list_item;
                         String[] from = {"fullname","phone"};
                         int[] to = {R.id.tv_BuyerNameItem, R.id.tv_BuyerPhoneItem};
 
-                        SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), data, resource, from, to);
-                        buyerListView.setAdapter(adapter);
+                        buyerAdapter = new SimpleAdapter(getApplicationContext(), data, resource, from, to);
+                        buyerListView.setAdapter(buyerAdapter);
             Log.d("CMP", "Set Adapter");
 
 

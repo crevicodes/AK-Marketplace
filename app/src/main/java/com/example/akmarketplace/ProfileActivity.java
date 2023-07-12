@@ -86,6 +86,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 tv_Fullname.setText(value.getString("fullname"));
                 tv_Email.setText(value.getString("email"));
                 tv_Phone.setText(value.getString("phone"));
+                Log.d("CMP", "Set up Profile Name");
             }
         });
 
