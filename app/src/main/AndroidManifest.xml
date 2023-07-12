@@ -9,10 +9,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".MarketplaceApp"
@@ -24,10 +22,14 @@
         android:roundIcon="@mipmap/ak_marketplace_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AKMarketplace">
+        <activity
+            android:name=".SoldActivity"
+            android:exported="false" />
+
         <service
             android:name=".MarketplaceService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".MarketplaceApp"
@@ -92,9 +94,10 @@
             android:name=".CreateAccountActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <activity android:name=".BuyerListActivity"
+        <activity
+            android:name=".BuyerListActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
             android:exported="true"

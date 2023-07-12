@@ -13,13 +13,16 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,10 +35,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
 
-    private Button btn_createacc, btn_login, btn_forgotPass;
+    private Button btn_createacc, btn_login;//, btn_forgotPass;
+    private TextView tv_forgotPass;
+    private CompoundButton cb_RememberMe;
     private EditText et_email, et_password;
 
     private FirebaseAuth mAuth;
+    private SharedPreferences savedUserEmail;
+
 
 
 
@@ -44,23 +51,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Log.d("CMP", "onCreate of LoginActivity");
 
         btn_createacc = findViewById(R.id.btn_createacc);
         btn_login = findViewById(R.id.btn_login);
-        btn_forgotPass = findViewById(R.id.btn_forgotPass);
+//      btn_forgotPass = findViewById(R.id.btn_forgotPass);
         et_email = findViewById(R.id.et_email);
         et_password = findViewById(R.id.et_password);
-
-
+        cb_RememberMe = findViewById(R.id.cb_RememberMe);
+        tv_forgotPass = findViewById(R.id.tv_forgotPass);
 
         btn_login.setOnClickListener(this);
         btn_createacc.setOnClickListener(this);
-        btn_forgotPass.setOnClickListener(this);
+        tv_forgotPass.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
 
 
+        savedUserEmail = getSharedPreferences("savedUserEmail", MODE_PRIVATE);
+        Boolean isChecked = savedUserEmail.getBoolean("savedCheck", false);
+        if(isChecked) {
+            cb_RememberMe.setChecked(isChecked);
+            String email = savedUserEmail.getString("savedEmail", "");
 
-
+            if (!(email.equals(""))) {
+                et_email.setText(email);
+            }
+        }
 
         /*if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS)
                 == PackageManager.PERMISSION_DENIED) finish();*/
@@ -83,6 +99,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
+                                SharedPreferences.Editor editor = savedUserEmail.edit();
+
+                                if(cb_RememberMe.isChecked())
+                                {
+                                    editor.putBoolean("savedCheck", cb_RememberMe.isChecked());
+                                    editor.putString("savedEmail", et_email.getText().toString());
+                                    editor.commit();
+                                }
+                                else{
+                                    editor.putBoolean("savedCheck", cb_RememberMe.isChecked());
+                                    editor.commit();
+                                }
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 Intent serviceIntent = new Intent(getApplicationContext(), MarketplaceService.class);
                                 ContextCompat.startForegroundService(getApplicationContext(), serviceIntent);
@@ -100,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     });
 
         }
-        else if(v.getId() == R.id.btn_forgotPass)
+        else if(v.getId() == R.id.tv_forgotPass)
         {
             AlertDialog.Builder forgot = new AlertDialog.Builder(this);
             forgot.setMessage("Enter Email Address for Password Reset");

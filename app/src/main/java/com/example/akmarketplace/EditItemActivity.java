@@ -1,5 +1,7 @@
 package com.example.akmarketplace;
 
+import static java.lang.Thread.sleep;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -250,7 +252,13 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
         else if(v.getId() == R.id.btn_SetSold)
         {
             BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("sold", "true");
-            finish();
+            try {
+                sleep(500);
+                finish();
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+
         }
     }
 
