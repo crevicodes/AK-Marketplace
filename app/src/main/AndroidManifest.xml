@@ -61,7 +61,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
+            android:value="AIzaSyBrDSpUo8WZ19VmTI_Nqpe3ffQMAMhMxno" />
 
         <activity
             android:name=".MapsActivity"
@@ -95,10 +95,6 @@
         <activity android:name=".BuyerListActivity"
             android:exported="false"
             android:screenOrientation="portrait"/>
-        <activity
-            android:name=".BuyerListActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
             android:exported="true"
