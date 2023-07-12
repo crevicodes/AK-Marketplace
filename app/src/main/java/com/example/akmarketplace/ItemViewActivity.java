@@ -154,7 +154,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         if (v.getId() == R.id.btn_itemView_back) {
             finish();
         }
-        else if (v.getId() == R.id.btn_itemView_buy) {
+        else if (v.getId() == R.id.btn_itemView_buy) { //notify the seller that you want to buy, the seller will have your number
             AlertDialog alertDialog = new AlertDialog.Builder(ItemViewActivity.this).create();
             alertDialog.setTitle("Notify Seller");
             alertDialog.setMessage("This will notify the seller that you are interested in buying this item.");
@@ -227,7 +227,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_CANCELED) {
+        if (resultCode == RESULT_CANCELED) { //incase they press the back button while in an activity started for result
         }
         else if (requestCode == 205) {
 

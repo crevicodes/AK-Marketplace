@@ -25,7 +25,9 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.akmarketplace.databinding.ActivityMaps2Binding;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback { //similar to setlocactivity
+
+    //can open google maps from here for directions
 
     private GoogleMap mMap;
     private ActivityMaps2Binding binding;

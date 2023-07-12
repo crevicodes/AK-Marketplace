@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,12 +27,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
-public class SoldActivity extends AppCompatActivity {
+public class SoldActivity extends AppCompatActivity { //history of sold items
 
     private ListView lv_items;
     private ArrayList<Item> items;
     private ArrayList<Item> filteredItems;
     private Toolbar toolbar1;
+    private TextView tv_welcometitle;
 
     private String targetEmail;
 
@@ -41,6 +43,9 @@ public class SoldActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_view_list);
         toolbar1 = findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar1);
+
+        tv_welcometitle = findViewById(R.id.tv_welcometitle);
+        tv_welcometitle.setText("AK Marketplace - Sell History");
 
         lv_items = findViewById(R.id.lv_items);
 

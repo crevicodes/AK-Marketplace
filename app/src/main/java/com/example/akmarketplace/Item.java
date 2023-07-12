@@ -2,7 +2,7 @@ package com.example.akmarketplace;
 
 import java.util.ArrayList;
 
-public class Item {
+public class Item { //item class for retrieving from database
 
     private long time_added_millis;
     private String title;

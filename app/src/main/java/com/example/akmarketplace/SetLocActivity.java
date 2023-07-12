@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.akmarketplace.databinding.ActivityMapsBinding;
 
-public class SetLocActivity extends FragmentActivity implements OnMapReadyCallback {
+public class SetLocActivity extends FragmentActivity implements OnMapReadyCallback { //meetup location, initialized at AUS
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;

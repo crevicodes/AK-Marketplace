@@ -12,6 +12,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -115,7 +116,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             startActivity(sellIntent);
             finish();
         }
-        else if(v.getId()==R.id.btn_changePhone)
+        else if(v.getId()==R.id.btn_changePhone) //allow phone change, also changes the items listed
         {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setMessage("Enter New Phone Number");
@@ -203,6 +204,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             return true;
         } else if (item.getItemId() == R.id.menu_QuitApp) {
             this.finishAffinity();
+            return true;
+        } else if (item.getItemId() == R.id.menu_Help) {
+            Intent userGuide = new Intent(Intent.ACTION_VIEW, Uri.parse("https://docs.google.com/document/d/11kMRshvPOeUrqo0h9pvM0SDFSmgQVI59FW49WyUxKoM/edit"));
+            startActivity(userGuide);
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -11,3 +11,5 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 }
+
+//just for a dialog

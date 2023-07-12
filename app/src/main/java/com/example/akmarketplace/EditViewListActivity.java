@@ -156,5 +156,5 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
             return false;
         }
 
-    };
+    }; //long click to see buyers, click to edit item
 }

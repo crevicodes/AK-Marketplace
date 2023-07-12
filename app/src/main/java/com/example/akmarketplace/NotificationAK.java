@@ -1,6 +1,6 @@
 package com.example.akmarketplace;
 
-public class NotificationAK {
+public class NotificationAK { //notification class for retrieving from database
     private String buyerEmail;
     private String sellerEmail;
     private String itemId;

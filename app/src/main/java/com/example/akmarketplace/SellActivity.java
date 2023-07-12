@@ -105,24 +105,19 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-        //targetFullname = user.getDisplayName();
-        // = user.getPhoneNumber();
-
-        //newItem = new Item();
-
     }
 
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_Location) {
+        if (v.getId() == R.id.btn_Location) { //set meetup location
             Intent mapsIntent = new Intent(getApplicationContext(), SetLocActivity.class);
             mapsIntent.putExtra("locationLat", loc2.latitude);
             mapsIntent.putExtra("locationLng", loc2.longitude);
             startActivityForResult(mapsIntent,201);
 
         }
-        else if (v.getId() == R.id.btn_Image) {
+        else if (v.getId() == R.id.btn_Image) { //take image photo
                 if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_DENIED) {
                 ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.CAMERA}, 102);
@@ -147,7 +142,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(profileIntent);
             finish();
         }
-        else if (v.getId() == R.id.btn_EnlistItem) {
+        else if (v.getId() == R.id.btn_EnlistItem) { //sell button
             boolean checkFields = verifyFields();
             if (checkFields) {
 
@@ -174,8 +169,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
 
                 item.put("sold", "false");
                 item.put("buyerEmails", new ArrayList<String>());
-                //item.put("buyerEmail", "");
-                //item.put("buyerPhone", "");
+
 
 
                 items.document(Long.toString(timeAdded)).set(item);
@@ -212,7 +206,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public boolean verifyFields() {
+    public boolean verifyFields() { //verify that all fields are filled, uses dialog
         if (et_Title.getText().toString().replaceAll(" ", "").isEmpty() ||
                 et_Description.getText().toString().replaceAll(" ", "").isEmpty() ||
                 img_itemImage == null || loc_meetupLocation == null) {
@@ -249,7 +243,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
         else return true;
     }
 
-    public void clearFields() {
+    public void clearFields() { //reset all fields
         et_Title.setText("");
         et_Description.setText("");
         et_Price.setText("");
@@ -261,7 +255,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode==RESULT_CANCELED) {}
+        if (resultCode==RESULT_CANCELED) {} //in case phone's back button is pressed
         else if(requestCode==101) {
             Bitmap pic = data.getParcelableExtra("data");
             imageUri = getImageUri(getApplicationContext(), pic);
@@ -308,6 +302,10 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
             return true;
         } else if (item.getItemId() == R.id.menu_QuitApp) {
             this.finishAffinity();
+            return true;
+        } else if (item.getItemId() == R.id.menu_Help) {
+            Intent userGuide = new Intent(Intent.ACTION_VIEW, Uri.parse("https://docs.google.com/document/d/11kMRshvPOeUrqo0h9pvM0SDFSmgQVI59FW49WyUxKoM/edit"));
+            startActivity(userGuide);
             return true;
         }
         return super.onOptionsItemSelected(item);

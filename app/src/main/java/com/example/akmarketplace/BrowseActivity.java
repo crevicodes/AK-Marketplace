@@ -50,19 +50,19 @@ import java.util.HashMap;
 
 public class BrowseActivity extends AppCompatActivity implements View.OnClickListener, TextView.OnEditorActionListener, AdapterView.OnItemClickListener {
 
-    static FirebaseFirestore db;
+    static FirebaseFirestore db; //all activities can access this
     static FirebaseStorage storage;
     private Button btn_Browse1, btn_Sell1, btn_Profile1;
     private EditText et_Search;
     private Toolbar toolbar1;
-    private ArrayList<Item> items;
-    private ArrayList<Item> filteredItems;
+    private ArrayList<Item> items; //get all items here
+    private ArrayList<Item> filteredItems; //filtered to display and open the corresponding displayed item
     ListView lv_items;
     private String search_key;
     ImageView img_itemImage;
     String targetEmail;
     String targetName;
-    boolean dne;
+    boolean dne; //for solving the user concurrency delete issue
 
 
     @Override
@@ -99,7 +99,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
 
 
         et_Search.setOnEditorActionListener(this);
-        et_Search.addTextChangedListener(new TextWatcher() {
+        et_Search.addTextChangedListener(new TextWatcher() { //searches as soon as you type something
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -120,7 +120,6 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
 
         search_key = "";
         if (user != null) {
-            // Name, email address etc
             String name = user.getDisplayName();
             targetEmail = user.getEmail();
             Task<DocumentSnapshot> tk = db.collection("users").document(targetEmail).get();
@@ -142,7 +141,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) { //navigating between the 3 main interfaces
         if (v.getId() == R.id.btn_Sell1) {
             Intent sellIntent = new Intent(getApplicationContext(), SellActivity.class);
             startActivity(sellIntent);
@@ -166,7 +165,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) { //menu items
         if (item.getItemId() == R.id.menu_About) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setView(R.layout.activity_about);
@@ -183,12 +182,16 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         } else if (item.getItemId() == R.id.menu_QuitApp) {
             this.finishAffinity();
             return true;
+        } else if (item.getItemId() == R.id.menu_Help) {
+            Intent userGuide = new Intent(Intent.ACTION_VIEW, Uri.parse("https://docs.google.com/document/d/11kMRshvPOeUrqo0h9pvM0SDFSmgQVI59FW49WyUxKoM/edit"));
+            startActivity(userGuide);
+            return true;
         }
             return super.onOptionsItemSelected(item);
 
     }
 
-    public void updateAndDisplay(String key) {
+    public void updateAndDisplay(String key) { //try catch just in case
         try {
             getAndUpdate(key);
         } catch (Exception e) {
@@ -201,7 +204,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
 
         }
     }
-    public void getAndUpdate(String key) {
+    public void getAndUpdate(String key) { //actual updateAndDisplay()
         items = new ArrayList<>();
         filteredItems = new ArrayList<>();
         BrowseActivity.db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -220,8 +223,6 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
                         if (i.getTitle().replaceAll(" ", "").toLowerCase().contains(key) && i.getSold().equals("false")) {
                             HashMap<String, String> map = new HashMap<>();
                             map.put("title", i.getTitle());
-
-                            //StorageReference storeRef = BrowseActivity.storage.getReference().child(i.getTitle()+(i.getDescription().length()>7 ? i.getDescription().substring(0,7) : i.getDescription()));
 
                             map.put("image", i.getImage());
 
@@ -244,7 +245,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
                             ImageView img_itemImage = view.findViewById(R.id.img_itemImage);
                             String imageURL = data.get(position).get("image");
 
-                            Picasso.get().load(imageURL).into(img_itemImage);
+                            Picasso.get().load(imageURL).into(img_itemImage); //for image loading to image view
 
                             return view;
                         }
@@ -260,7 +261,6 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if(et_Search.getText().toString().replaceAll(" ","").isEmpty()) search_key = "";
@@ -272,22 +272,6 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-
-
-
-    private void uriToBitmap(Uri selectedFileUri) {
-        try {
-            ParcelFileDescriptor parcelFileDescriptor =
-                    getContentResolver().openFileDescriptor(selectedFileUri, "r");
-            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-            Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-
-            parcelFileDescriptor.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

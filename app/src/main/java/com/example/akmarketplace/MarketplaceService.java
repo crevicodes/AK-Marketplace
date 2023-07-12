@@ -46,12 +46,11 @@ public class MarketplaceService extends Service {
         Log.d("Test", "FOREGROUND Service started");
 
         targetEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        //notifMap = new HashMap<>();
         notifications = new ArrayList<>();
         filteredNotifications = new ArrayList<>();
 
         createNotificationChannel();
-        Intent notificationIntent = new Intent(this, BrowseActivity.class);
+        Intent notificationIntent = new Intent(this, BrowseActivity.class); //go to browse activity
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
@@ -89,7 +88,7 @@ public class MarketplaceService extends Service {
     @Override
     public void onDestroy() {
         Log.d("News reader", "Service destroyed");
-
+        stopTimer();
     }
 
     private void startTimer() {
@@ -131,7 +130,7 @@ public class MarketplaceService extends Service {
         };
 
         timer = new Timer(true);
-        int delay = 1000 * 15;
+        int delay = 1000 * 15; //15 second delay to not overload the firestore database
         int interval = 1000 * 15;
         timer.schedule(task, delay, interval);
     }
@@ -142,7 +141,7 @@ public class MarketplaceService extends Service {
         }
     }
 
-    private void sendNotification(String text, long id )
+    private void sendNotification(String text, long id ) //sending notifs to seller that buyer is interested
     {
         Intent notificationIntent = new Intent(this, EditViewListActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

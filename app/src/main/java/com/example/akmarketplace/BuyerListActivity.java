@@ -46,9 +46,8 @@ public class BuyerListActivity extends ListActivity {
         private ArrayList <Item> filteredItems;
         private ArrayList<String> buyers;
 
-    // called when the activity is first created
         @Override
-        public void onCreate(Bundle savedInstanceState) {
+        public void onCreate(Bundle savedInstanceState) { //loads the list of buyers for that item
             super.onCreate(savedInstanceState);
             Log.d("CMP", "Entered Buyer List");
             items = new ArrayList<>();

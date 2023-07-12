@@ -53,7 +53,6 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
     private ImageView img_itemDisplay, img_itemImage, img_Default;
     private TextView tv_Title;
     private LatLng loc_meetupLocation;
-    //private Item newItem;
     private Toolbar toolbar2;
     private String targetEmail;
     private EditText et_Title, et_Description, et_Price;
@@ -242,7 +241,7 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
                     });
             alertDialog.show();
         }
-        else if(v.getId() == R.id.btn_SetSold)
+        else if(v.getId() == R.id.btn_SetSold) //manually set an item as sold
         {
             BrowseActivity.db.collection("items").document(Long.toString(currentItem.getTime_added_millis())).update("sold", "true");
             try {
@@ -262,7 +261,6 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
             Bitmap pic = data.getParcelableExtra("data");
             imageUri = getImageUri(getApplicationContext(), pic);
             img_itemDisplay.setImageURI(imageUri);
-            //imageUri = picture;
             img_itemImage = img_itemDisplay;
             Toast.makeText(getApplicationContext(),imageUri.toString(),Toast.LENGTH_SHORT).show();
         }
@@ -273,7 +271,7 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
+    public Uri getImageUri(Context inContext, Bitmap inImage) { //bitmap to uri
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
