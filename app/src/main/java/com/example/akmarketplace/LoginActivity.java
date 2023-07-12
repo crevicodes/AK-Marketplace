@@ -91,8 +91,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         else if(v.getId() == R.id.btn_login)
         {
-            Task<AuthResult> username = mAuth.signInWithEmailAndPassword(et_email.getText().toString(),
-                            et_password.getText().toString())
+
+            Task<AuthResult> username = mAuth.signInWithEmailAndPassword(et_email.getText().toString().isEmpty()?" ":et_email.getText().toString(),
+                            et_password.getText().toString().isEmpty()?" ":et_password.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {

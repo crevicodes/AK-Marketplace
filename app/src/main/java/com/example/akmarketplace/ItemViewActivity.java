@@ -49,13 +49,14 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
 
     boolean isBuying;
 
-    String userEmail;
-    String userName;
-    ArrayList<String> buyers = new ArrayList<>();
+    private String userEmail;
+    private String userName;
+    private ArrayList<String> buyers = new ArrayList<>();
 
-    ImageView img_itemView_display;
-    TextView tv_itemView_title, tv_itemView_desc, tv_itemView_price, tv_itemView_sellerName, tv_itemView_sellerPhone, tv_itemView_location;
-    Button btn_itemView_buy, btn_itemView_back;
+    private ImageView img_itemView_display;
+    private TextView tv_itemView_title, tv_itemView_desc, tv_itemView_price, tv_itemView_sellerName, tv_itemView_sellerPhone, tv_itemView_location;
+    private Button btn_itemView_buy, btn_itemView_back;
+    private boolean dne;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,45 +163,65 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         if (v.getId() == R.id.btn_itemView_back) {
             finish();
-        } else if (v.getId() == R.id.btn_itemView_buy) {
+        }
+        else if (v.getId() == R.id.btn_itemView_buy) {
             AlertDialog alertDialog = new AlertDialog.Builder(ItemViewActivity.this).create();
             alertDialog.setTitle("Notify Seller");
             alertDialog.setMessage("This will notify the seller that you are interested in buying this item.");
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Notify",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            CollectionReference notifications = BrowseActivity.db.collection("notifications");
-                            Map<String, Object> notification = new HashMap<>();
-                            notification.put("buyerEmail", userEmail); //data type = long
-                            notification.put("sellerEmail", selectedItem.getSellerEmail());
-                            notification.put("buyerName", userName);
-                            notification.put("itemName", selectedItem.getTitle());
-                            notification.put("itemId", Long.toString(selectedItem.getTime_added_millis()));
-                            notifications.document(Long.toString(selectedItem.getTime_added_millis())).set(notification);
 
-                            BrowseActivity.db.collection("items").document(Long.toString(selectedItem.getTime_added_millis())).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            dne = true;
+                            BrowseActivity.db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        buyers = (ArrayList<String>) document.get("buyerEmails");
-                                        buyers.add(userEmail);
-
-                                        BrowseActivity.db.collection("items").document(Long.toString(selectedItem.getTime_added_millis())).update("buyerEmails", buyers);
-
-                                        v.setEnabled(false);
-
-                                        SharedPreferences.Editor editor = savedBuying.edit();
-                                        editor.putBoolean(Long.toString(selectedItem.getTime_added_millis()), false);
-                                        editor.commit();
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        if (Long.parseLong(document.getId()) == selectedItem.getTime_added_millis()) {
+                                            dne = false;
+                                        }
                                     }
+                                    if (dne) {
+                                        Toast.makeText(ItemViewActivity.this, "Item no longer exists...", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    } else {
+                                        CollectionReference notifications = BrowseActivity.db.collection("notifications");
+                                        Map<String, Object> notification = new HashMap<>();
+                                        notification.put("buyerEmail", userEmail); //data type = long
+                                        notification.put("sellerEmail", selectedItem.getSellerEmail());
+                                        notification.put("buyerName", userName);
+                                        notification.put("itemName", selectedItem.getTitle());
+                                        notification.put("itemId", Long.toString(selectedItem.getTime_added_millis()));
+                                        notifications.document(Long.toString(selectedItem.getTime_added_millis())).set(notification);
+
+                                        BrowseActivity.db.collection("items").document(Long.toString(selectedItem.getTime_added_millis())).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    DocumentSnapshot document = task.getResult();
+                                                    buyers = (ArrayList<String>) document.get("buyerEmails");
+                                                    buyers.add(userEmail);
+
+                                                    BrowseActivity.db.collection("items").document(Long.toString(selectedItem.getTime_added_millis())).update("buyerEmails", buyers);
+
+                                                    v.setEnabled(false);
+
+                                                    SharedPreferences.Editor editor = savedBuying.edit();
+                                                    editor.putBoolean(Long.toString(selectedItem.getTime_added_millis()), false);
+                                                    editor.commit();
+                                                }
+                                            }
+                                        });
+                                    }
+
+
+                                    //buyers = selectedItem.getBuyerEmails();
+
+
                                 }
                             });
-                            //buyers = selectedItem.getBuyerEmails();
+                        }});
 
-
-                        }
-                    });
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {

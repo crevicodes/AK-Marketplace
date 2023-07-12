@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -63,6 +64,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
     ImageView img_itemImage;
     String targetEmail;
     String targetName;
+    boolean dne;
 
 
     @Override
@@ -95,6 +97,8 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         lv_items = findViewById(R.id.lv_items);
 
         lv_items.setOnItemClickListener(this);
+
+        dne = true;
 
 
         et_Search.setOnEditorActionListener(this);
@@ -291,12 +295,32 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent itemIntent = new Intent(getApplicationContext(), ItemViewActivity.class);
-        itemIntent.putExtra("position", position);
-        itemIntent.putExtra("search", search_key);
-        itemIntent.putExtra("userEmail", targetEmail);
-        itemIntent.putExtra("userName", targetName);
-        startActivity(itemIntent);
+
+        dne = true;
+        db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    if (Long.parseLong(document.getId())==filteredItems.get(position).getTime_added_millis()) {
+                        dne = false;
+                    }
+                }
+                if(dne) {
+                    Toast.makeText(BrowseActivity.this, "Item no longer exists...", Toast.LENGTH_SHORT).show();
+                    updateAndDisplay(search_key);
+                }
+                else {
+                    Intent itemIntent = new Intent(getApplicationContext(), ItemViewActivity.class);
+                    itemIntent.putExtra("position", position);
+                    itemIntent.putExtra("search", search_key);
+                    itemIntent.putExtra("userEmail", targetEmail);
+                    itemIntent.putExtra("userName", targetName);
+                    startActivity(itemIntent);
+                }
+
+            }
+        });
+
     }
 
 

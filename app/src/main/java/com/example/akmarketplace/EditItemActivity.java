@@ -234,8 +234,8 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
                                         public void onSuccess(Void unused) {
                                             Log.d("Tests", "2");
                                             Toast.makeText(getApplicationContext(), "Item Deleted From List", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(getApplicationContext(), EditViewListActivity.class);
-                                            startActivity(intent);
+                                            //Intent intent = new Intent(getApplicationContext(), EditViewListActivity.class);
+                                            //startActivity(intent);
                                             finish();
                                         }
                                     });
