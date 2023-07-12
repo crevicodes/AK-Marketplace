@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +37,7 @@ import java.util.Map;
 
 public class ItemViewActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences savedBuying;
     private ArrayList<Item> items;
     private ArrayList<Item> filteredItems;
     private String search_key;
@@ -52,6 +54,8 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_view);
+
+        savedBuying = getSharedPreferences("savedBuying", MODE_PRIVATE);
 
         //userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
@@ -78,7 +82,17 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
 
 
         updateDisplay(search_key);
+
+
     }
+
+    /*@Override
+    protected void onResume() {
+        super.onResume();
+
+        boolean isBuying = savedBuying.getBoolean(Long.toString(selectedItem.getTime_added_millis()), true);
+        btn_itemView_buy.setEnabled(isBuying);
+    }*/
 
     public void updateDisplay(String key) {
         items = new ArrayList<>();
@@ -144,7 +158,11 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
 
                                         BrowseActivity.db.collection("items").document(Long.toString(selectedItem.getTime_added_millis())).update("buyerEmails",buyers);
 
-                                        v.setClickable(false);
+                                        v.setEnabled(false);
+
+                                        SharedPreferences.Editor editor = savedBuying.edit();
+                                        editor.putBoolean(Long.toString(selectedItem.getTime_added_millis()), false);
+                                        editor.commit();
                                     }
                                 }
                             });
