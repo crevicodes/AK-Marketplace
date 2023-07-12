@@ -139,6 +139,9 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                     Log.d("Test5", "got shared references: " + isBuying);
                     btn_itemView_buy.setEnabled(isBuying);
                     Log.d("Test5", "button set");
+
+                    if(selectedItem.getSellerEmail().equals(userEmail)) btn_itemView_buy.setEnabled(false);
+
                 }
             }
         });
