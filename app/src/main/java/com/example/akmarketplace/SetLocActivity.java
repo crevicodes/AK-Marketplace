@@ -75,7 +75,7 @@ public class SetLocActivity extends FragmentActivity implements OnMapReadyCallba
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        //mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
         Intent mapsIntent = getIntent();
         double locationLat = mapsIntent.getDoubleExtra("locationLat", 25.310338125326922);
