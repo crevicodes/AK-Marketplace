@@ -168,7 +168,7 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
                 item.put("sellerEmail", targetEmail);
                 item.put("sellerPhone", targetPhone);
 
-                item.put("isSold", false);
+                item.put("sold", "false");
                 item.put("buyerEmails", new ArrayList<String>());
                 //item.put("buyerEmail", "");
                 //item.put("buyerPhone", "");

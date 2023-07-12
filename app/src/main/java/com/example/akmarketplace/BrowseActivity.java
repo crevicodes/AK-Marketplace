@@ -211,7 +211,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
 
                     ArrayList<HashMap<String, String>> data = new ArrayList<>();
                     for (Item i : items) {
-                        if (i.getTitle().replaceAll(" ", "").toLowerCase().contains(key)) {
+                        if (i.getTitle().replaceAll(" ", "").toLowerCase().contains(key) && i.getSold().equals("false")) {
                             HashMap<String, String> map = new HashMap<>();
                             map.put("title", i.getTitle());
 

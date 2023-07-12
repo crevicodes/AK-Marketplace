@@ -118,7 +118,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
 
 
                     for (Item i : items) {
-                        if (i.getTitle().replaceAll(" ", "").toLowerCase().contains(key)) {
+                        if (i.getTitle().replaceAll(" ", "").toLowerCase().contains(key) && i.getSold().equals("false")) {
 
                             filteredItems.add(i);
                         }

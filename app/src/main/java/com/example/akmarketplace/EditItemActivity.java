@@ -136,7 +136,7 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
                     Collections.reverse(items);
 
                     for (Item i : items) {
-                        if (i.getSellerEmail().equals(key)) {
+                        if (i.getSellerEmail().equals(key) && i.getSold().equals("false")) {
 
                             filteredItems.add(i);
                         }

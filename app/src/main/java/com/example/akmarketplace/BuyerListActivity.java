@@ -73,7 +73,7 @@ public class BuyerListActivity extends ListActivity {
                         Collections.reverse(items);
 
                         for (Item i : items) {
-                            if (i.getSellerEmail().equals(targetEmail)) {
+                            if (i.getSellerEmail().equals(targetEmail) && i.getSold().equals("false")) {
 
                                 filteredItems.add(i);
                             }
@@ -126,27 +126,7 @@ public class BuyerListActivity extends ListActivity {
 
 
 
-                        /*for(String email: buyerEmails)
-                        {
-                            HashMap<String, String> map = new HashMap<>();
-                            Task tk = BrowseActivity.db.collection("users").document(email).get();
-                            tk.addOnCompleteListener(new OnCompleteListener<QueryDocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QueryDocumentSnapshot> task) {
-                                    QueryDocumentSnapshot res = task.getResult();
-                                    String fullname = res.getString("fullname");
-                                    String phone = res.getString("phone");
-                                    map.put("fullname", fullname);
-                                    map.put("phone", phone);
-                                    data.add(map);
 
-
-
-                                }
-                            });
-
-
-                        }*/
 
 
 

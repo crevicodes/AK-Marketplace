@@ -8,7 +8,7 @@ public class Item {
     private String title;
     private String description;
     private String image;
-    private boolean isSold;
+    private String sold;
     private String sellerName;
     private String sellerEmail;
     //private String buyerName;
@@ -20,7 +20,7 @@ public class Item {
     private double price;
 
 
-    public Item(long time_added_millis, String title, String description, double price, String sellerName, String sellerEmail, String sellerPhone, String image, double locationLat, double locationLng) {
+    public Item(long time_added_millis, String title, String description, double price, String sellerName, String sellerEmail, String sellerPhone, String image, double locationLat, double locationLng, ArrayList<String> buyerEmails, String sold) {
 
         this.time_added_millis = time_added_millis;
         this.title = title;
@@ -32,11 +32,12 @@ public class Item {
         this.locationLat = locationLat;
         this.locationLng = locationLng;
         this.price = price;
+        this.buyerEmails = buyerEmails;
+        this.sold = sold;
 
         //this.buyerName = "";
         //this.buyerPhone = "";
-        this.buyerEmails = new ArrayList<>();
-        this.isSold = false;
+
     }
 
     //public int compare(Item rhs) {
@@ -48,6 +49,14 @@ public class Item {
 
     public Item() {
 
+    }
+
+    public String getSold() {
+        return sold;
+    }
+
+    public void setSold(String sold) {
+        this.sold = sold;
     }
 
     public long getTime_added_millis() {
@@ -131,13 +140,7 @@ public class Item {
         this.buyerPhone = buyerPhone;
     }*/
 
-    public boolean isSold() {
-        return isSold;
-    }
 
-    public void setSold(boolean sold) {
-        isSold = sold;
-    }
 
     public double getLocationLat() {
         return locationLat;

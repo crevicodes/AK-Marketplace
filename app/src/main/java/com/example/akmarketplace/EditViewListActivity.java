@@ -100,7 +100,7 @@ public class EditViewListActivity extends AppCompatActivity implements AdapterVi
 
                     ArrayList<HashMap<String, String>> data = new ArrayList<>();
                     for (Item i : items) {
-                        if (i.getSellerEmail().equals(key)) {
+                        if (i.getSellerEmail().equals(key) && i.getSold().equals("false")) {
                             HashMap<String, String> map = new HashMap<>();
                             map.put("title", i.getTitle());
 
