@@ -261,7 +261,8 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==101) {
+        if (resultCode==RESULT_CANCELED) {}
+        else if(requestCode==101) {
             Bitmap pic = data.getParcelableExtra("data");
             imageUri = getImageUri(getApplicationContext(), pic);
             img_itemDisplay.setImageURI(imageUri);
@@ -274,9 +275,6 @@ public class SellActivity extends AppCompatActivity implements View.OnClickListe
             Double locLng = data.getDoubleExtra("replyLng",0);
             loc_meetupLocation = new LatLng(locLat,locLng);
             loc2 = new LatLng(locLat, locLng);
-        }
-        else if (requestCode==RESULT_CANCELED) {
-            
         }
     }
 
