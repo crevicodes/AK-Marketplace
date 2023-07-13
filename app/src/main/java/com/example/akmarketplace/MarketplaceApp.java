@@ -1,3 +1,5 @@
+//AK Marketplace by @Kevin and @Angelo
+
 package com.example.akmarketplace;
 
 import androidx.appcompat.app.AppCompatActivity;
