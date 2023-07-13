@@ -183,7 +183,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
             this.finishAffinity();
             return true;
         } else if (item.getItemId() == R.id.menu_Help) {
-            Intent userGuide = new Intent(Intent.ACTION_VIEW, Uri.parse("https://docs.google.com/document/d/11kMRshvPOeUrqo0h9pvM0SDFSmgQVI59FW49WyUxKoM/edit"));
+            Intent userGuide = new Intent(Intent.ACTION_VIEW, Uri.parse("https://publuu.com/flip-book/187365/457712"));
             startActivity(userGuide);
             return true;
         }
